@@ -10,11 +10,7 @@ format:
     chalkboard: 
       theme: whiteboard
       boardmarker-width: 3
-      src: chalkboard.json
     callout-appearance: simple
-project:
-  type: website
-  output-dir: docs
 execute:
   echo: true
 ---
