@@ -1,6 +1,8 @@
 ---
 title: "Limit Theorems"
 author: "Sonia Markes"
+date: last-modified
+date-format: long
 format: 
   revealjs:
     theme: serif
