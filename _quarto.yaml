@@ -1,9 +1,7 @@
 project:
   type: website
-  output-dir: docs
 
 website:
   title: "STA238 - Annotated Lecture Notes (Summer 2023)"
 
 
-  
