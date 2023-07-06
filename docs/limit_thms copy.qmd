@@ -1,0 +1,193 @@
+---
+title: "Limit Theorems"
+author: "Sonia Markes"
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      theme: whiteboard
+      boardmarker-width: 3
+      src: chalkboard.json
+    callout-appearance: simple
+project:
+  type: website
+  output-dir: docs
+execute:
+  echo: true
+---
+
+# Setting
+
+. . .
+
+Consider repeating an experiment many times.
+
+::: fragment
+Represent the experiments by a sequence of random variables
+
+$$
+X_1, X_2, X_3,...
+$$
+
+where $X_i$ is the outcome of the $i^{th}$ experiment.
+:::
+
+## Assumptions
+
+1.  The conditions of the experiment are identical for each iteration.
+2.  The outcome of each iteration does not influence the outcome of any other iteration.
+
+::: fragment
+::: callout-tip
+How reasonable are these assumptions? When might they be violated?
+:::
+:::
+
+## iid
+
+We say $X_1, X_2, X_3,...$ are **independent and identically distributed**, or *iid*, if every $X_i$ has the same distribution, which we will call $F$.
+
+Notation
+
+:   $$
+    X_1, X_2, X_3,... \overset{iid}{\sim} F
+    $$
+
+::: fragment
+::: {.callout-note appearance="default"}
+## Common setting
+
+Suppose $X_1, ..., X_n$ are $iid$ random variables with $\text{E}[X_i]=\mu$ and $\text{Var}(X_i) = \sigma^2<\infty$.
+:::
+:::
+
+
+## Recall: Properties of expectations
+
+If $X$ and $Y$ are random variables and $a$ is a constant, then
+
+$$
+\text{E}[X+Y]= \text{E}[X] + \text{E}[Y]
+$$
+
+$$
+\text{E}[aX] = a\text{E}[X]
+$$
+
+## Recall: Properties of variances
+
+If $X$ and $Y$ are *iid* random variables and $a$ is a constant, then
+
+$$
+\text{Var}[X+Y]= \text{Var}[X] + \text{Var}[Y]
+$$
+
+$$
+\text{Var}[aX] = a^2\text{Var}[X]
+$$
+
+::: fragment
+::: callout-caution
+Why is the $iid$ assumption needed here?
+
+::: notes
+$$
+X\perp\!\!\!\perp Y \implies \text{Cov}(X,Y)=0
+$$
+:::
+:::
+:::
+
+## Mean of a repeated experiment, $\bar{X}_n$
+
+What is the expected value of $\bar{X}_n$? $$ \; $$ 
+
+. . .
+
+What is the variance of $\bar{X}_n$? $$ \; $$ 
+
+. . .
+
+::: callout-note
+Repeated experiments have a smaller variance than does a single run of an experiment.
+
+$$
+\text{Var}[\bar{X}_n] \leq \text{Var}[X_i]
+$$
+:::
+
+
+# Chebyshev’s Inequality
+
+. . . 
+
+*Intuition*: For any probability distribution, most probability mass is within a few standard deviations from the expectation.
+
+
+---
+
+How likely is it for a random variable to be outside the interval $\left( \text{E}[Y]-a, \text{E}[Y]+a \right)$?
+
+. . . 
+
+::: {#thm-cheby-ineq-2}
+
+## Chebyshev’s Inequality
+
+Consider a random variable $Y$ with $\text{E}[Y]<\infty$ and $\text{Var}(Y) <\infty$ and a constant $a>0$. Then
+
+$$
+\text{P}\left( \lvert Y-\text{E}[Y] \rvert \geq a \right)\leq \frac{1}{a^2}\text{Var}\left( Y\right)
+$${#eq-chebyshev-ineq-1}
+
+:::
+
+---
+
+:::{.proof}
+## @eq-chebyshev-ineq-1
+
+Let $f_Y$ be the pdf of $Y$ and $\text{E}[Y]=\mu$. 
+
+:::{.notes}
+$$
+\begin{aligned} 
+\text{Var}(Y) &= \int_{-\infty}^{\infty} (y-\mu)^2f_Y(y)dy \\ 
+			&\geq \int_{\lvert y-\mu \rvert \geq a} (y-\mu)^2f_Y(y)dy \\ 
+			&\geq \int_{\lvert y-\mu \rvert \geq a} a^2f_Y(y)dy = a^2 \text{P}\left( \lvert Y-\mu \rvert \geq a\right)
+\end{aligned}
+$$
+:::
+:::
+
+
+## Re-statement
+
+Note that
+
+$$
+\text{P}\left( \lvert Y-\mu \rvert < a\right) = 1-\text{P}\left( \lvert Y-\mu \rvert \geq a\right) 
+$$
+
+. . . 
+
+Let $\text{Var}(Y)=\sigma_Y^2$ and $a=k\sigma_Y$. 
+
+. . .
+
+::: {#thm-cheby-ineq-2}
+## Chebyshev’s Inequality 
+
+For any random variable $Y$ with $\text{E}[Y]=\mu_Y$ and $\text{Var}(Y)=\sigma_Y^2$
+
+$$
+\text{P}\left( \lvert Y-\mu_Y \rvert < k\sigma_Y \right)\geq 1-\frac{1}{k^2}
+$$ {#eq-chebyshev-ineq-2}
+
+:::
+
+
+# Law of Large Numbers
