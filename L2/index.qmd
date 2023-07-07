@@ -1,0 +1,442 @@
+---
+title: "Limit Theorems"
+author: "Sonia Markes"
+institute: "University of Toronto"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    show-slide-number: print
+    chalkboard: 
+      src: chalkboard.json
+      theme: whiteboard
+      boardmarker-width: 3
+    callout-appearance: simple
+execute:
+  echo: true
+---
+
+# Setting
+
+Consider repeating an experiment many times.
+
+::: fragment
+Represent the experiments by a sequence of random variables
+
+$$
+X_1, X_2, X_3,...
+$$
+
+where $X_i$ is the outcome of the $i^{th}$ experiment.
+:::
+
+## Assumptions
+
+1.  The conditions of the experiment are identical for each iteration.
+2.  The outcome of each iteration does not influence the outcome of any other iteration.
+
+::: fragment
+::: callout-tip
+How reasonable are these assumptions? When might they be violated?
+:::
+:::
+
+## iid
+
+We say $X_1, X_2, X_3,...$ are **independent and identically distributed**, or *iid*, if every $X_i$ has the same distribution, which we will call $F$.
+
+Notation
+
+:   $$
+    X_1, X_2, X_3,... \overset{iid}{\sim} F
+    $$
+
+::: fragment
+::: {.callout-note}
+## Common setting
+
+Suppose $X_1, ..., X_n$ are $iid$ random variables with $\mathbb{E}[X_i]=\mu$ and $\text{Var}(X_i) = \sigma^2<\infty$.
+:::
+:::
+
+## Recall: Properties of expectations
+
+If $X$ and $Y$ are random variables and $a$ is a constant, then
+
+$$
+\mathbb{E}[X+Y]= \mathbb{E}[X] + \mathbb{E}[Y]
+$$
+
+$$
+\mathbb{E}[aX] = a\mathbb{E}[X]
+$$
+
+## Recall: Properties of variances
+
+If $X$ and $Y$ are *iid* random variables and $a$ is a constant, then
+
+$$
+\text{Var}[X+Y]= \text{Var}[X] + \text{Var}[Y]
+$$
+
+$$
+\text{Var}[aX] = a^2\text{Var}[X]
+$$
+
+::: fragment
+::: callout-caution
+Why is the $iid$ assumption needed here?
+
+::: notes
+$$
+X\perp\!\!\!\perp Y \implies \text{Cov}(X,Y)=0
+$$
+:::
+:::
+:::
+
+## Mean of a repeated experiment, $\bar{X}_n$
+
+What is the expected value of $\bar{X}_n$? $$ \; $$
+
+::: notes
+$$ 
+\mathbb{E}[\bar{X}_n] =  \frac{1}{n}\sum_{i=1}^n \mathbb{E} \left[{X}_i \right] =\mu
+$$
+:::
+
+. . .
+
+What is the variance of $\bar{X}_n$? $$ \; $$
+
+::: notes
+$$
+\text{Var}[\bar{X}_n] =  \frac{1}{n^2}\sum_{i=1}^n \text{Var} \left[{X}_i \right] =\frac{\sigma^2}{n}
+$$
+:::
+
+. . .
+
+::: callout-tip
+Repeated experiments have a smaller variance than does a single run of an experiment.
+
+$$
+\text{Var}[\bar{X}_n] \leq \text{Var}[X_i]
+$$
+:::
+
+# Chebyshev's Inequality
+
+. . .
+
+How likely is it for a random variable to be outside the interval $\left( \mathbb{E}[Y]-a, \mathbb{E}[Y]+a \right)$?
+
+. . .
+
+::: callout-tip
+For any probability distribution, most probability mass is within a few standard deviations from the expectation.
+:::
+
+------------------------------------------------------------------------
+
+::: {#thm-cheby-ineq}
+## Chebyshev's Inequality
+
+Consider a random variable $Y$ with $\mathbb{E}[Y]<\infty$ and $\text{Var}(Y) <\infty$ and a constant $a>0$. Then
+
+$$
+\text{Pr}\left( \lvert Y-\mathbb{E}[Y] \rvert \geq a \right)\leq \frac{1}{a^2}\text{Var}\left( Y\right)
+$$ {#eq-chebyshev-ineq-1}
+:::
+
+------------------------------------------------------------------------
+
+::: {.proof}
+Let $f_Y$ be the pdf of $Y$ and $\mathbb{E}[Y]=\mu$.
+
+::: notes
+$$
+\begin{aligned} 
+\text{Var}(Y) &= \int_{-\infty}^{\infty} (y-\mu)^2f_Y(y)dy \\ 
+            &\geq \int_{\lvert y-\mu \rvert \geq a} (y-\mu)^2f_Y(y)dy \\ 
+            &\geq \int_{\lvert y-\mu \rvert \geq a} a^2f_Y(y)dy = a^2 \text{Pr}\left( \lvert Y-\mu \rvert \geq a\right)
+\end{aligned}
+$$
+:::
+:::
+
+---
+
+
+Note that
+
+$$
+\text{Pr}\left( \lvert Y-\mu \rvert < a\right) = 1-\text{Pr}\left( \lvert Y-\mu \rvert \geq a\right) 
+$$
+
+
+
+. . .
+
+::: {#cor-cheby-ineq}
+## also, Chebyshev's Inequality
+
+For a random variable $Y$ with $\mathbb{E}[Y] = \mu <\infty$ and $\text{Var}(Y)=\sigma^2 <\infty$, and a constant $k>0$. Then
+
+$$
+\text{Pr}\left( \lvert Y-\mu \rvert < k\sigma \right)\geq 1-\frac{1}{k^2}
+$$ {#eq-chebyshev-ineq-2}
+:::
+
+:::{.notes}
+Let $a=k\text{Var}(Y)$.
+:::
+
+# Law of Large Numbers
+
+::: callout-tip
+Repeating an experiment more times makes it more likely that the sample mean is close to the expectation.
+:::
+
+---
+
+:::{#thm-LLN}
+## Law of Large Numbers
+
+The sample mean $\bar{X}_n$ *converges in probability* to $\mathbb{E}[X_i]=\mu$, the true mean, provided that $\text{Var}(X_i) = \sigma^2 < \infty$. This is written as
+
+$$
+\bar{X}_n \overset{p}{\longrightarrow} \mu \;\;\; \text{when} \;\;\; n \longrightarrow \infty
+$$
+
+:::
+
+---
+
+:::{.proof}
+Apply Chebyshev’s Inequality (@cor-cheby-ineq) to $\bar{X}_n$. Let $\varepsilon>0$. Then
+
+$$
+\text{Pr}\left( \lvert \bar{X}_n-\mu \rvert < \varepsilon \right) \geq 1 - \frac{\sigma^2}{n\varepsilon^2}
+$$
+
+Taking the limit as $n\rightarrow \infty$ gives 
+
+$$
+\lim_{n\rightarrow \infty} \text{Pr}\left( \lvert \bar{X}_n-\mu \rvert <\varepsilon \right)=1
+$$
+
+which is the definition of *convergence in probability*.
+:::
+
+:::{.notes}
+Let $\varepsilon=k\sigma_Y$, where $\sigma_Y$ denotes the standard deviation of the random variable we’re considering (denoted $Y$), which is $\bar{X}_n$ in this case. Note that $Var(\bar{X}_n)=\frac{\sigma^2}{n}$ so $\sigma_{\bar{X}_n}=\frac{\sigma}{\sqrt{n}}$. Putting this together gives
+
+$$
+k=\frac{\varepsilon}{\frac{\sigma}{\sqrt{n}}}
+$$
+
+Using this expression of $k$ and the definition of $\varepsilon$, along with @cor-cheby-ineq, gives us the desired statement.
+:::
+
+. . .
+
+:::{.callout-warning}
+This derivation relies on the assumption of finite variance.
+:::
+
+---
+
+:::{.callout-note}
+## Versions of the LLN
+
+- This version of the **Law of Large Numbers (LLN)** is more precisely known as the **Weak Law of Large Numbers (WLLN)**.
+
+- There is a **Strong Law of Large Numbers (SLLN)**, which states that
+$$
+\bar{X}_n \overset{a.s.}{\longrightarrow} \mu \;\;\; \text{when} \;\;\; n \longrightarrow \infty.
+$$
+This type of convergence is called *almost sure*, and is defined as
+$$
+\text{Pr}\left( \lim_{n\rightarrow \infty} \bar{X}_n=\mu \right)=1
+$$
+:::
+
+
+# Central Limit Theorem
+
+## Standardization
+
+*Given*: Random variable $X$ with $\mathbb{E}[X]=\mu$ and $\text{Var}[X]=\sigma^2$.
+
+. . .
+
+*Want*: Random variable $Z$ such that $\mathbb{E}[Z]=0$ and $\text{Var}[Z]=1$.
+
+. . .
+
+*How?*
+
+. . .
+
+$$
+Z=\frac{X-\mathbb{E}[X]}{\left(\text{Var}(X)\right)^{1/2}}=\frac{X-\mu}{\sigma}
+$$
+
+. . .
+
+:::{.callout-caution}
+Can we verify that  $\mathbb{E}[Z]=0$ and $\text{Var}[Z]=1$?
+:::
+
+
+## Standardizing averages
+
+Can we standardize the sample mean, $\bar{X}_n$?
+
+. . .
+
+
+Use $\mathbb{E}[\bar{X}_n] =\mu$ and $\text{Var}[\bar{X}_n] = \frac{\sigma^2}{n}$ to get
+
+. . .
+
+
+$$
+Z_n = \frac{\bar{X}_n-\mathbb{E}[\bar{X}_n]}{\left(\text{Var}(\bar{X}_n)\right)^{1/2}} 
+= \sqrt{n}\frac{\bar{X}_n-\mu}{\sigma}
+$$
+
+---
+
+:::{#thm-CLT}
+## Central Limit Theorem
+
+Let $X_1, ..., X_n$ be a sequence of $iid$ random variables with $\mathbb{E}[X_i]=\mu$ and $\text{Var}(X_i) = \sigma^2<\infty$. Then
+
+$$
+\underset{n\rightarrow\infty}{\lim} \text{Pr} \left( Z_n\leq z\right)=\Phi(z)
+$$
+
+where $Z_n=\sqrt{n}\frac{\bar{X}_n-\mu}{\sigma}$ and $\Phi(z)$  denotes the CDF of the standard normal distribution.
+
+:::
+
+
+## Convergence in distribution
+
+We say that $Z_n$ *converges in distribution* to $Z\sim N(0,1)$. That is,
+
+$$
+Z_n \overset{D}{\longrightarrow}Z \;\; \text{where} \;\; Z\sim N(0,1)
+$$
+
+. . .
+
+or, equivalently, 
+
+$$
+\bar{X}_n \overset{D}{\longrightarrow}Y \;\; \text{where} \;\; Y\sim N\left( \mu,\frac{\sigma^2}{n} \right)
+$$
+
+. . .
+
+:::{.callout-note}
+CLT holds regardless of the distribution of $X_i$ (!)
+:::
+
+---
+
+:::{#exr-samp-mean}
+Let $X_1, ..., X_n$ represent $iid$ measurements of the weights of newborn babies. The distribution is unknown, but it has mean $\mu=7.2 \,lbs$ and variance $\sigma^2=4.8$. 
+
+i. What is $\text{Pr}(\bar{X}_n < 7)$ if $n=50$?
+ii. What is the $90^{th}$ percentile of $\bar{X}_n$ if $n=120$?
+:::
+
+
+---
+
+Some helpful values:
+
+```{r ex1i}
+#| output-location: fragment
+z <- (7 - 7.2) / sqrt(4.8/50)
+pnorm(z)
+```
+
+---
+
+More helpful values:
+
+```{r ex1ii}
+#| output-location: fragment
+z <- qnorm(0.9)
+x <- z*sqrt(4.8/120) + 7.2
+c(z,x)
+```
+
+
+---
+
+:::{#exr-samp-total}
+Let $X_1, ..., X_n$ be $iid$ and represent the wait times for customers at a call centre. The distribution is unknown, but it has mean $\mu=3.6$ minutes and variance $\sigma^2=2.1$. Let $T_n$ represent the total wait time for $n$ customers.
+
+i. What is $\text{Pr}(T_n > 70)$ if $n=20$? 
+ii. What is the $75^{th}$ percentile of $T_n$ if $n=10$?
+:::
+
+. . .
+
+*Hint*: $T_n=\sum_{i=1}^n X_i = n\bar{X}_n$
+
+
+---
+
+Some helpful values:
+
+```{r ex2i}
+#| output-location: fragment
+z <- (3.5-3.6) / sqrt(2.1/20)
+pnorm(z)
+```
+
+---
+
+More helpful values:
+
+```{r ex2ii}
+#| output-location: fragment
+z <- qnorm(0.75)
+x <- z*sqrt(2.1/10) + 3.6
+c(z,x)
+```
+
+---
+
+:::{#exr-norm-approx-to-binom}
+If you had to write a test without preparing, estimate the probability that you’d be able to pass it if there were 20 questions which were True / False answers only.
+:::
+
+
+---
+
+Some helpful values:
+
+. . .
+
+```{r pbinom-true}
+#| output-location: fragment
+pbinom(10, size = 20, prob = 0.5) 
+```
+
+. . .
+
+```{r standard-norm}
+#| output-location: fragment
+pnorm(1/sqrt(5))
+```
+
