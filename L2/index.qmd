@@ -422,6 +422,11 @@ If you had to write a test without preparing, estimate the probability that youâ
 :::
 
 
+::: aside
+For more of the solution, use the b key to show the extra slide.
+:::
+
+
 ---
 
 Some helpful values:
@@ -439,4 +444,10 @@ pbinom(10, size = 20, prob = 0.5)
 #| output-location: fragment
 pnorm(1/sqrt(5))
 ```
+
+
+::: aside
+To see why the last line of code is useful, note that for a random variable $W$ distributed as a binomial distribution, $Pr(W \leq 10)=Pr(W < 11)$ because it is a discrete distribution. However, the normal distribution is continuous and these quantities are not equal. Try using the normal approximation to the binomial for less than 11 questions wrong.
+:::
+
 
