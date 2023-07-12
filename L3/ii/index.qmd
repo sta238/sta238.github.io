@@ -1,0 +1,243 @@
+---
+title: "Estimators, Part 1"
+author: "Sonia Markes"
+institute: "University of Toronto"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    chalkboard: 
+      src: chalkboard.json
+      theme: whiteboard
+      boardmarker-width: 2
+    callout-appearance: simple
+execute:
+  echo: true
+---
+
+# Terminology 
+
+We observe data: $x_1,...,x_n$
+
+- Summary statistics can be calculated from data e.g. sample mean, sample variance
+
+. . .
+
+We don’t observe random variables: $X_1,...,X_n$ 
+
+- Likewise, we can’t observe functions of random variables e.g. expectation value, variances
+
+. . .
+
+We want to use the observed data to learn about the unobservable probability distributions.
+
+
+## Estimate → Estimator
+
+A **estimate** is a value $t$ that only depends on the dataset $x_1, ..., x_n$, that is, $t$ is a function of the dataset only:
+
+$$
+t =h(x_1, ...,x_n)
+$$
+
+An **estimator** is a random variable $T$, defined as:
+
+$$
+T=h(X_1, ...,X_n)
+$$
+
+such that *the estimate $t$ is a realization of $T$*.
+
+. . .
+
+::: {.callout-note}
+Often, we want to estimate a model parameter, e.g. $\theta$. In this case, the notation commonly used to denote an estimator is $\widehat{\theta}$
+:::
+
+## Sampling distribution
+
+For an estimator $T=h(X_1, ...,X_n)$ based on a random sample $X_1, ...,X_n$, the **sampling distribution** is the probability distribution of $T$.
+
+::: {.r-stack}
+
+::: {.fragment .fade-in-then-out}
+::: {#exm-sampdistr-1obs}
+Let $X_1,...,X_n\overset{iid}{\sim}F_{\theta}$. Consider the estimator $\widehat{\theta}=X_3$.
+:::
+:::
+
+::: {.fragment .fade-in}
+::: {#exm-sampdistr-bern}
+Let $X_1,...,X_n\overset{iid}{\sim}Bernoulli(\theta)$. Consider the estimator $\widehat{\theta}=\bar{X}$. 
+:::
+::: {.notes}
+Notice that each $X_i$ in the random sample is $0$ or $1$. 
+
+⇒ $\sum_{i=1}^n X_i$ is a count of the number of successes in $n$  Bernoulli trials 
+
+… which is a binomial distribution ⇒ $\sum_{i=1}^n X_i \sim Binomial(n, p)$
+
+Since $P\left(\sum_{i=1}^n X_i = k\right) = P\left( \bar{X} = \frac{k}{n}\right)$, then $\widehat{\theta} \sim Binomial(n, p)$.
+:::
+:::
+
+:::
+
+
+# Evaluating Estimators
+
+::: {.columns}
+
+::: {.column}
+
+*Part 1*
+
+- Bias
+- Consistency
+:::
+
+::: {.column}
+
+*Part 2*
+
+- Efficiency
+- Mean Squared Error
+:::
+:::
+
+## Bias
+
+An estimator for the parameter $\theta$ is called an **unbiased** estimator if
+
+$$
+\mathbb{E}[\widehat{\theta}]=\theta
+$$
+
+The **bias** of $\widehat{\theta}$ is the difference $\mathbb{E}[\widehat{\theta}]-\theta$.
+
+---
+
+::: {#exm-mu}
+Given $X_1, ...,X_n$ iid with $\mathbb{E}[X_i]=\mu$. Are the following estimators for $\mu$ unbiased?
+
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+**Sample mean** $\bar{X}$
+:::
+
+::: {.fragment .fade-in}
+**Single observation** $X_1$
+:::
+:::
+:::
+
+
+---
+
+::: {#exm-sigmasq}
+Given $X_1, ...,X_n$ iid with $\mathbb{E}[X_i]=\mu$ and $\text{Var}(X_i)=\sigma^2$. Is $\widetilde{s}_n^2=\frac{1}{n} \sum_{i=1}^{n}( X_i − \mu )^2$ an unbiased estimator for $\sigma^2$?
+:::
+::: {.r-stack}
+::: {.fragment .fade-in-then-out}
+**Assume $\mu$ is known.**
+:::
+::: {.fragment .fade-in}
+**Assume $\mu$ is *not* known.**
+:::
+:::
+
+
+::: {.notes}
+![](figs_ii/sigmasq-muknown.png)
+![](figs_ii/sigmasq-muunknown_1.png)
+![](figs_ii/sigmasq-muunknown_2.png)
+:::
+
+---
+
+::: {.callout-tip}
+A biased estimator can sometimes be used to construct an unbiased estimator.
+:::
+
+::: {.notes}
+![](figs_ii/sigmasq-muunknown_3.png)
+:::
+
+---
+
+::: {.callout-warning}
+A function of an unbiased estimator is not necessarily an unbiased estimator of the function of the parameter.
+:::
+
+. . .
+
+Consider the square root of a unbiased estimator of the variance as an estimator of $\sigma$.
+
+::: {.fragment .fade-in-then-out}
+::: {.callout title="*Recall*: Jensen’s inequality"}
+Let $X$ be a random variable and $g$ be a convex function. Then 
+$$ \mathbb{E}[g(X)] \geq (\mathbb{E}[X])  $$
+:::
+:::
+
+::: {.fragment .fade-in}
+
+:::
+
+::: {.notes}
+![](figs_ii/jensen.png)
+:::
+
+----
+
+::: {#exm-max}
+Given $X_1, ...,X_n \overset{iid}{\sim} \text{U}[0,\theta]$. Find an unbiased estimator for $\theta$.
+:::
+
+::: {.fragment .fade-in-then-out}
+For $X_i \sim \text{U}[0,\theta]$,
+
+$$
+f(x|\theta)= \begin{cases}
+   \frac{1}{\theta} &\text{for } 0 \leq x \leq \theta \\
+   0 &\text{otherwise } 
+\end{cases}
+$$
+
+$$
+ \mathbb{E}[X_i]=\frac{\theta}{2}
+$$
+
+$$
+ \text{Var}(X_i)=\frac{\theta^2}{12}
+$$
+:::
+
+::: {.notes}
+![](figs_ii/max.png)
+:::
+
+## Consistency
+
+::: {.r-stack}
+
+::: {.fragment .fade-in-then-out}
+An estimator $\widehat{\theta}$ is **consistent** for a parameter $\theta$ if 
+$$
+\lim_{n\rightarrow \infty} \text{Pr}\left( \lvert \widehat{\theta}-\theta \rvert > \varepsilon \right) = 0
+$$
+for any $\varepsilon >0$. That is, $\widehat{\theta} \overset{p}{\rightarrow} \theta$.
+:::
+
+::: {.fragment .fade-in}
+#### Examples
+
+- $\bar{X}$ is consistent for $\mu$ (by LLN) and unbiased
+- $s^2=\frac{1}{n}\sum_{i=1}^n (X_i-\mu)^2$ is consistent for $\sigma^2$ (by LLN ^[see: Modelling Exercise 1]) but biased
+- $X_1$ is unbiased but *not* consistent
+:::
+:::
+
