@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Sonia Markes">
-  <meta name="dcterms.date" content="2023-07-12">
+  <meta name="dcterms.date" content="2023-07-13">
   <title>Estimators, Part 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -246,6 +246,7 @@
     }
     .reveal .slide:not(.center) {
       height: 100%;
+      overflow-y: auto;
     }
     .reveal .slide.scrollable {
       overflow-y: auto;
@@ -341,7 +342,7 @@ Sonia Markes
     </div>
 </div>
 
-  <p class="date">July 12, 2023</p>
+  <p class="date">July 13, 2023</p>
 </section>
 <section>
 <section id="terminology" class="title-slide slide level1 center">
@@ -370,7 +371,7 @@ t =h(x_1, ...,x_n)
 <p><span class="math display">\[
 T=h(X_1, ...,X_n)
 \]</span></p>
-<p>such that <em>the estimate <span class="math inline">\(t\)</span> is a realization of <span class="math inline">\(T\)</span></em>.</p>
+<p>such that <em>the estimate</em> <span class="math inline">\(t\)</span> is a realization of <span class="math inline">\(T\)</span>.</p>
 <div class="fragment">
 <div class="callout callout-note callout-style-simple">
 <div class="callout-body">
@@ -387,33 +388,22 @@ T=h(X_1, ...,X_n)
 <section id="sampling-distribution" class="slide level2">
 <h2>Sampling distribution</h2>
 <p>For an estimator <span class="math inline">\(T=h(X_1, ...,X_n)\)</span> based on a random sample <span class="math inline">\(X_1, ...,X_n\)</span>, the <strong>sampling distribution</strong> is the probability distribution of <span class="math inline">\(T\)</span>.</p>
-<div class="r-stack">
-<div class="fragment fade-in-then-out">
 <div id="exm-sampdistr-1obs" class="theorem example">
 <p><span class="theorem-title"><strong>Example 1 </strong></span>Let <span class="math inline">\(X_1,...,X_n\overset{iid}{\sim}F_{\theta}\)</span>. Consider the estimator <span class="math inline">\(\widehat{\theta}=X_3\)</span>.</p>
 </div>
+<div class="solution proof">
+<p><span class="proof-title"><em>Solution</em>. </span><span class="math inline">\(X_3 \sim F_{\theta} \implies \widehat{\theta} \sim F_{\theta}\)</span></p>
 </div>
-<div class="fragment fade-in">
+</section>
+<section id="sampling-distribution-1" class="slide level2">
+<h2>Sampling distribution</h2>
 <div id="exm-sampdistr-bern" class="theorem example">
 <p><span class="theorem-title"><strong>Example 2 </strong></span>Let <span class="math inline">\(X_1,...,X_n\overset{iid}{\sim}Bernoulli(\theta)\)</span>. Consider the estimator <span class="math inline">\(\widehat{\theta}=\bar{X}\)</span>.</p>
 </div>
-<aside class="notes">
-<p>Notice that each <span class="math inline">\(X_i\)</span> in the random sample is <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>.</p>
-<p>⇒ <span class="math inline">\(\sum_{i=1}^n X_i\)</span> is a count of the number of successes in <span class="math inline">\(n\)</span> Bernoulli trials</p>
-<p>… which is a binomial distribution ⇒ <span class="math inline">\(\sum_{i=1}^n X_i \sim Binomial(n, p)\)</span></p>
+<div class="solution proof">
+<p><span class="proof-title"><em>Solution</em>. </span>Notice that each <span class="math inline">\(X_i\)</span> in the random sample has binary possible outcomes, that is, <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span> <span class="math inline">\(\implies\)</span> <span class="math inline">\(\sum_{i=1}^n X_i\)</span> is a count of the number of successes in <span class="math inline">\(n\)</span> Bernoulli trials.</p>
+<p>Recognize this as a binomial distribution <span class="math inline">\(\implies\)</span> <span class="math inline">\(\sum_{i=1}^n X_i \sim \text{Bin}(n, p)\)</span></p>
 <p>Since <span class="math inline">\(P\left(\sum_{i=1}^n X_i = k\right) = P\left( \bar{X} = \frac{k}{n}\right)\)</span>, then <span class="math inline">\(\widehat{\theta} \sim Binomial(n, p)\)</span>.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</div>
 </div>
 </section></section>
 <section>
@@ -449,10 +439,10 @@ T=h(X_1, ...,X_n)
 <p><span class="theorem-title"><strong>Example 3 </strong></span>Given <span class="math inline">\(X_1, ...,X_n\)</span> iid with <span class="math inline">\(\mathbb{E}[X_i]=\mu\)</span>. Are the following estimators for <span class="math inline">\(\mu\)</span> unbiased?</p>
 <div class="r-stack">
 <div class="fragment fade-in-then-out">
-<p><strong>Sample mean</strong> <span class="math inline">\(\bar{X}\)</span></p>
+<p><strong>Sample mean</strong> <span class="math inline">\(\bar{X}\)</span> <img data-src="figs_ii/mu_sampmean.png"></p>
 </div>
 <div class="fragment fade-in">
-<p><strong>Single observation</strong> <span class="math inline">\(X_1\)</span></p>
+<p><strong>Single observation</strong> <span class="math inline">\(X_1\)</span> <img data-src="figs_ii/mu_singleobs.png"></p>
 </div>
 </div>
 </div>
@@ -462,27 +452,13 @@ T=h(X_1, ...,X_n)
 <div id="exm-sigmasq" class="theorem example">
 <p><span class="theorem-title"><strong>Example 4 </strong></span>Given <span class="math inline">\(X_1, ...,X_n\)</span> iid with <span class="math inline">\(\mathbb{E}[X_i]=\mu\)</span> and <span class="math inline">\(\text{Var}(X_i)=\sigma^2\)</span>. Is <span class="math inline">\(\widetilde{s}_n^2=\frac{1}{n} \sum_{i=1}^{n}( X_i − \mu )^2\)</span> an unbiased estimator for <span class="math inline">\(\sigma^2\)</span>?</p>
 </div>
-<div class="r-stack">
-<div class="fragment fade-in-then-out">
-<p><strong>Assume <span class="math inline">\(\mu\)</span> is known.</strong></p>
-</div>
-<div class="fragment fade-in">
-<p><strong>Assume <span class="math inline">\(\mu\)</span> is <em>not</em> known.</strong></p>
-</div>
-</div>
-<aside class="notes">
-<p><img data-src="figs_ii/sigmasq-muknown.png"> <img data-src="figs_ii/sigmasq-muunknown_1.png"> <img data-src="figs_ii/sigmasq-muunknown_2.png"></p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<p><strong>Assume</strong> <span class="math inline">\(\mu\)</span> is known.</p>
+
+<img data-src="figs_ii/sigmasq-muknown.png" class="r-stretch"></section>
+<section class="slide level2">
+
+<p><strong>Assume</strong> <span class="math inline">\(\mu\)</span> is <em>not</em> known.</p>
+<p><img data-src="figs_ii/sigmasq-muunknown_1.png"> <img data-src="figs_ii/sigmasq-muunknown_2.png"></p>
 </section>
 <section class="slide level2">
 
@@ -523,7 +499,7 @@ T=h(X_1, ...,X_n)
 </div>
 </div>
 <div class="fragment">
-<p>Consider the square root of a unbiased estimator of the variance as an estimator of <span class="math inline">\(\sigma\)</span>.</p>
+<p>Consider the square root of an unbiased estimator of the variance as an estimator of <span class="math inline">\(\sigma\)</span>.</p>
 <div class="fragment fade-in-then-out">
 <div class="callout callout-none no-icon callout-titled callout-style-simple">
 <div class="callout-body">
