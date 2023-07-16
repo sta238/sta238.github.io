@@ -218,9 +218,11 @@ $$ for any $\varepsilon >0$. That is, $\widehat{\theta} \overset{p}{\rightarrow}
 #### Examples
 
 -   $\bar{X}$ is consistent for $\mu$ (by LLN) and unbiased
--   $s^2=\frac{1}{n}\sum_{i=1}^n (X_i-\mu)^2$ is consistent for $\sigma^2$ (by LLN [^1]) but biased
+-   $s^2=\frac{1}{n}\sum_{i=1}^n (X_i-\mu)^2$ is consistent for $\sigma^2$ (by LLN, see: Modelling Exercise 1) but biased
 -   $X_1$ is unbiased but *not* consistent
 :::
 :::
 
-[^1]: see: Modelling Exercise 1
+
+
+
