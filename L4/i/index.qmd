@@ -62,7 +62,7 @@ If $\widehat\theta_1$ and $\widehat\theta_2$ are both *unbiased* estimators for 
 
 - $\widehat\theta_2$ is **more efficient** than $\widehat\theta_1$ if $\text{Var}(\widehat\theta_2) < \text{Var}(\widehat\theta_1)$ irrespective of the value of $\theta$.
 
-- The **relative efficiency** of $\widehat\theta_2$ *with respect to $T_1$* is $\frac{\text{Var}(\widehat\theta_1)}{\text{Var}(\widehat\theta_2)}$
+- The **relative efficiency** of $\widehat\theta_2$ *with respect to* $\widehat\theta_1$cc is $\frac{\text{Var}(\widehat\theta_1)}{\text{Var}(\widehat\theta_2)}$
 
 
 ## {.smaller}
@@ -84,7 +84,7 @@ $$
 ## {.smaller}
 
 ::: {#exm-max}
-Given $X_1, ...,X_n \overset{iid}{\sim} \cal{U}[0,\theta]$. Which of these unbiased^[See: Estimators, Part 1, Example 5 for $\widehat\theta_1$. Showing that $\widehat\theta_2$ is unbiased is left as a exercise.] estimators of $\theta$ is preferred? 
+Given $X_1, ...,X_n \overset{iid}{\sim} \text{U}[0,\theta]$. Which of these unbiased^[See: Estimators, Part 1, Example 5 for $\widehat\theta_1$. Showing that $\widehat\theta_2$ is unbiased is left as a exercise.] estimators of $\theta$ is preferred? 
 
 $$
 \begin{align*}
@@ -152,7 +152,7 @@ If $\widehat\theta$ is unbiased, then $MSE(\widehat\theta) = \text{Var}(\widehat
 ---
 
 ::: {#prp-MSE-bias_var}
-If $\widehat\theta$ is any estimator $\widehat\theta$ for $\theta$, then $MSE(\widehat\theta)=\text{Var}(\widehat\theta)+\text{Bias}^2$.
+If $\widehat\theta$ is any estimator $\widehat\theta$ for $\theta$, then $MSE(\widehat\theta)=\text{Var}(\widehat\theta)+\text{Bias}_{\widehat\theta}^2$.
 :::
 
 ::: {.notes}
