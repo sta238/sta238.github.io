@@ -10,7 +10,7 @@ format:
     incremental: true
     slide-number: true
     chalkboard: 
-      src: chalkboard.json
+      src: chalkboard1.json
       theme: whiteboard
       boardmarker-width: 2
     callout-appearance: simple
