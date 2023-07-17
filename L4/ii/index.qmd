@@ -1,0 +1,246 @@
+---
+title: "Maximum Likelihood Estimation"
+author: "Sonia Markes"
+institute: "University of Toronto"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    chalkboard: 
+      src: chalkboard.json
+      theme: whiteboard
+      boardmarker-width: 2
+    callout-appearance: simple
+    fig-cap-location: top
+execute:
+  echo: true
+---
+
+# Dice Game
+
+<center>
+
+::: fragment
+![A [6-sided die]{style="color: #6E9508"} and a [20-sided die]{style="color: #A12005"}.](fig_mle/dice_6_20.jpg){fig-align="center" width="300"}
+:::
+
+::: fragment
+::: {layout="[-1,8,-1]"}
+🏆 You win if the outcome of the roll of a die is *greater than or equal to 5*.
+:::
+:::
+
+</center>
+
+## Probability of winning
+
+With each die, what is the probability of getting an outcome that is *greater than or equal to 5*?
+
+::: {layout="[[1,1], [-1], [-1], [-1], [1]]"}
+[6-sided die]{.fragment style="color: #6E9508"}
+
+[20-sided die]{.fragment style="color: #A12005"}
+
+::: fragment
+::: callout-tip
+Which die would you rather play with?
+:::
+:::
+:::
+
+::: notes
+$1/3$ and $4/5$
+:::
+
+## A model
+
+Define a random variable $W$ such that $$
+W = \begin{cases}
+      1 & \text{if the outcome of the roll is $\geq 5$}\\
+      0 & \text{otherwise}
+    \end{cases}   
+$$
+
+. . .
+
+What is the distribution of $W$? What is the parameter?
+
+$$\;$$
+
+------------------------------------------------------------------------
+
+Suppose we roll the die and observe $w=1$. What is the best choice for the parameter of the distribution of $W$? Why?
+
+$$\;$$ $$\;$$
+
+::: notes
+$\Pr(W=1|p=4/5) > \Pr(W=1|p=1/3)$
+:::
+
+. . .
+
+::: {#def-max-likelihood-principle}
+### Maximum Likelihood Principle
+
+Given a dataset, choose the parameter(s) of interest in a way such that the data are most likely.
+:::
+
+------------------------------------------------------------------------
+
+If the data $x_1,...,x_n$ is a realization from a random sample $X_1,...,X_n$, we can write the [*probability of observing* $x_1,...,x_n$ *for a given parameter(s)* $\theta$]{style="color:purple"} as a probability density function $f(x_1,...,x_n|\theta)$, or, in the discrete case, a probability mass function $p(x_1,...,x_n|\theta)$.
+
+$$\;$$
+
+. . .
+
+::: {#def-mle}
+### Maximum Likelihood Estimation
+
+To estimate $\theta$, find the value of $\theta \in \Theta$ at which $\Pr(X_1=x_1,...,X_n=x_n)$ is maximal.
+:::
+
+# Likelihood function
+
+## Discrete case
+
+Since $X_1,...,X_n$ are independent
+
+$$
+P(X_1=x_1,...,X_n=x_n)=p(x_1|\theta)\times ...\times p(x_n|\theta)
+$$
+
+. . .
+
+::: {#def-lik-func-discrete}
+### Likelihood function for discrete data
+
+$$
+L(\theta)= p(x_1|\theta)\times ...\times p(x_n|\theta)
+$$
+:::
+
+## Properties of $L(\theta)$
+
+-   Since $x_1,...,x_n$ are fixed values, $p(x_1|\theta)\times ...\times p(x_n|\theta)$ is a function of $\theta$.
+-   The value of the likelihood function is different for different sets of data.
+
+::: notes
+Sometimes denoted as $L(\theta | \bf{x})$ where $\bold{x}=(x_1,...,x_n)$,
+:::
+
+------------------------------------------------------------------------
+
+::: {#exm-bowl-of-chips}
+Say there are three flavours of chips: plain, BBQ, and ketchup. They have been combined into one bowl with proportions 30/40/30 or, in another bowl, with proportions 10/70/20. If you reach into a bowl and get a plain chip, what is the MLE? What if you get a BBQ chip?
+:::
+
+::: notes
+![](fig_mle/bowl_of_chips.png)
+:::
+
+## Continuous case
+
+::: {#def-lik-func-cont}
+### Likelihood function for continuous data
+
+$$
+L(\theta)= f(x_1|\theta)\times ...\times f(x_n|\theta)
+$$
+:::
+
+------------------------------------------------------------------------
+
+::: proof
+Since $P(X_i=x_i)=0$ for continuous random variables, consider $\epsilon>0$, a small fixed value and choose $\theta$ such that
+
+$$
+P(x_1-\epsilon \leq X_1 \leq x_1+\epsilon, ..., x_n-\epsilon \leq X_n \leq x_n+\epsilon)
+$$
+
+is maximal. Since $X_1,...,X_n$ are independent, this equals
+
+$$
+\begin{gather*}
+   P(x_1-\epsilon \leq X_1 \leq x_1+\epsilon) \times...\times P(x_n-\epsilon \leq X_n \leq x_n+\epsilon) \\
+   \approx f(x_1|\theta) \times...\times f(x_n|\theta) \times (2\epsilon)^n
+\end{gather*}
+$$ Since the value of $\epsilon$ won't effect the location of the maximum, we can choose $\theta$ such that $f(x_1|\theta)\times ...\times f(x_n|\theta)$ is maximized.
+:::
+
+::: notes
+![](fig_mle/pf_cont_lik_func.png){width="80%"}
+:::
+
+------------------------------------------------------------------------
+
+::: {#exm-unif}
+Suppose data $x_1,...,x_n$ are a realization of a random sample $X_1,...,X_n$ such that $X_i\sim\text{U}(0,\theta),\;\theta >0$. Find the MLE for $\theta$.
+:::
+
+::: notes
+![](fig_mle/ex_unif.png){width="80%"}
+:::
+
+------------------------------------------------------------------------
+
+::: {#def-log-lik}
+## Log-likelihood function
+
+$$
+\ell(\theta)=\ln(L(\theta))
+$$
+:::
+
+. . .
+
+Why?
+
+-   $\ln(xy)=\ln(x)+\ln(y)$
+
+    ::: callout-tip
+    $\implies$ changes the product of probability density / mass functions to a sum
+    :::
+
+-   $\ln$ is a monotonic increasing function
+
+    ::: callout-tip
+    $\implies$ does not change the value of $\theta$ that gives the maximal value
+    :::
+
+------------------------------------------------------------------------
+
+::: {#exm-bin}
+Consider a random sample $X_1,...,X_n$ where $X_i \sim Bernoulli(\theta)$. Let $Y=\sum_{i=1}^n X_i$ represent the number of successes and $Y\sim Binomial(n,\theta)$. What is the MLE for $\theta$?
+:::
+
+::: notes
+![](fig_mle/ex_bin.png){width="80%"}
+![](fig_mle/ex_bin2.png){width="80%"}
+:::
+
+# MLEs
+
+## Terminology
+
+-   Given a set of data, the **maximum likelihood estimate** of $\theta$ is the value of $t=h(x_1, ...,x_n)$ that maximizes the likelihood function $L(\theta)$.
+-   The **maximum likelihood estimator** of $\theta$ is the random variable $T=h(X_1, ...,X_n)$ that corresponds to the maximum likelihood estimate.
+
+## Properites
+
+-   **Invariance principle**: If $\widehat{\theta}_{MLE}$ is the maximum likelihood estimator of a parameter $\theta$ and $g(\theta)$ is an invertible function of $\theta$, then $g(\widehat{\theta}_{MLE})$ is the maximum likelihood estimator for g(θ).
+-   **Asymptotically unbiased**: Even for an MLE that is biased, as $n\rightarrow \infty$, $bias(\widehat{\theta}_{MLE})\rightarrow 0$.
+-   **Asymptotically minimum variance**: In the limit as $n\rightarrow \infty$, MLEs have the smallest variance among all unbiased estimators.
+
+---
+
+::: {#exm-norm}
+Suppose data $x_1,...,x_n$ are a realization of a random sample $X_1,...,X_n$ such that $X_i\sim\text{N}(\mu,\sigma^2)$. Find MLEs for $\mu$ and $\sigma$.
+:::
+
+::: {.notes}
+![](fig_mle/ex_norm1.png){width="80%"}
+![](fig_mle/ex_norm2.png){width="80%"}
+:::
