@@ -11,7 +11,7 @@ format:
     slide-number: true
     scrollable: true
     chalkboard: 
-      src: chalkboard.json
+      src: chalkboard1.json
       theme: whiteboard
       boardmarker-width: 2
     callout-appearance: simple
@@ -165,7 +165,7 @@ Consider the square root of an unbiased estimator of the variance as an estimato
 
 ::: {.fragment .fade-in-then-out}
 ::: {.callout title="*Recall*: Jensen’s inequality"}
-Let $X$ be a random variable and $g$ be a convex function. Then $$ \mathbb{E}[g(X)] \geq (\mathbb{E}[X])  $$
+Let $X$ be a random variable and $g$ be a convex function. Then $$ \mathbb{E}[g(X)] \geq g(\mathbb{E}[X])  $$
 :::
 :::
 
@@ -218,7 +218,7 @@ $$ for any $\varepsilon >0$. That is, $\widehat{\theta} \overset{p}{\rightarrow}
 #### Examples
 
 -   $\bar{X}$ is consistent for $\mu$ (by LLN) and unbiased
--   $s^2=\frac{1}{n}\sum_{i=1}^n (X_i-\mu)^2$ is consistent for $\sigma^2$ (by LLN, see: Modelling Exercise 1) but biased
+-   $\widetilde{s}_n^2=\frac{1}{n}\sum_{i=1}^n (X_i-\mu)^2$ is consistent for $\sigma^2$ (by LLN, see: Modelling Exercise 1) but biased
 -   $X_1$ is unbiased but *not* consistent
 :::
 :::
