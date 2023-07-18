@@ -228,7 +228,7 @@ Consider a random sample $X_1,...,X_n$ where $X_i \sim Bernoulli(\theta)$. Let $
 -   Given a set of data, the **maximum likelihood estimate** of $\theta$ is the value of $t=h(x_1, ...,x_n)$ that maximizes the likelihood function $L(\theta)$.
 -   The **maximum likelihood estimator** of $\theta$ is the random variable $T=h(X_1, ...,X_n)$ that corresponds to the maximum likelihood estimate.
 
-## Properites
+## Properties
 
 -   **Invariance principle**: If $\widehat{\theta}_{MLE}$ is the maximum likelihood estimator of a parameter $\theta$ and $g(\theta)$ is an invertible function of $\theta$, then $g(\widehat{\theta}_{MLE})$ is the maximum likelihood estimator for g(θ).
 -   **Asymptotically unbiased**: Even for an MLE that is biased, as $n\rightarrow \infty$, $bias(\widehat{\theta}_{MLE})\rightarrow 0$.
