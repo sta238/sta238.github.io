@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Sonia Markes">
-  <meta name="dcterms.date" content="2023-07-18">
+  <meta name="dcterms.date" content="2023-07-19">
   <title>Introduction to Bayesian Inference</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -341,7 +341,7 @@ Sonia Markes
     </div>
 </div>
 
-  <p class="date">July 18, 2023</p>
+  <p class="date">July 19, 2023</p>
 </section>
 <section>
 <section id="dice-game-revisited" class="title-slide slide level1 center">
@@ -900,7 +900,8 @@ f(y)=\frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} y^{\alpha-1}(1-y)^
 f(x)= \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}, \quad x&gt;0, \quad \alpha,\beta&gt;0
 \]</span> where <span class="math inline">\(\Gamma(\cdot)\)</span> is the Gamma function, <span class="math inline">\(\alpha\)</span> is shape parameter, and <span class="math inline">\(\beta\)</span> is a rate parameter. Suppose that random variables <span class="math inline">\(X_1,\dots X_n\)</span> are conditionally independent given <span class="math inline">\(\beta\)</span>, that is, <span class="math display">\[
 X_i | \alpha,\beta \sim \text{Gamma}(\alpha,\beta)
-\]</span> Suppose that <span class="math inline">\(\alpha&gt;0\)</span> is known, and that the <span class="math inline">\(\beta\)</span> has the prior distribution <span class="math display">\[
+\]</span></p>
+<p>Suppose that <span class="math inline">\(\alpha&gt;0\)</span> is known, and that the <span class="math inline">\(\beta\)</span> has the prior distribution <span class="math display">\[
 \beta \sim \text{Gamma}(\alpha_0,\beta_0)
 \]</span> Show that this prior is <strong>conjugate</strong> with the likelihood.</p>
 <aside class="notes">

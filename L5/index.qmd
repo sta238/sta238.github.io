@@ -483,12 +483,16 @@ pdf:
 $$
 f(x)= \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1}e^{-\beta x}, \quad x>0, \quad \alpha,\beta>0
 $$ 
-where $\Gamma(\cdot)$ is the Gamma function, $\alpha$ is shape parameter, and $\beta$ is a rate parameter. Suppose that random variables $X_1,\dots X_n$ are conditionally independent given $\beta$, that is, $$
+where $\Gamma(\cdot)$ is the Gamma function, $\alpha$ is shape parameter, and $\beta$ is a rate parameter. Suppose that random variables $X_1,\dots X_n$ are conditionally independent given $\beta$, that is, 
+$$
 X_i | \alpha,\beta \sim \text{Gamma}(\alpha,\beta)
-$$ Suppose that $\alpha>0$ is known, and that the $\beta$ has the prior distribution 
+$$ 
+
+Suppose that $\alpha>0$ is known, and that the $\beta$ has the prior distribution 
 $$
 \beta \sim \text{Gamma}(\alpha_0,\beta_0)
-$$ Show that this prior is **conjugate** with the likelihood.
+$$ 
+Show that this prior is **conjugate** with the likelihood.
 
 ::: notes
 Using Bayes' theorem we can find the form for the posterior: 
