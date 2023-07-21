@@ -405,7 +405,7 @@ The parameter is $\theta$. The parameter space $\Theta = \left\{\frac{1}{3}, \fr
 ### Prior
 
 $$
-\pi(\theta) = \Pr(\theta = q) = \alpha^{\mathbb{1}_{\theta}(q=1/3)}+(1-\alpha)^{\mathbb{1}_{\theta}(q=4/5)}
+\pi(\theta) = \Pr(\theta = q) = \alpha*{\mathbb{1}_{\theta}(q=1/3)}+(1-\alpha)*{\mathbb{1}_{\theta}(q=4/5)}
 $$
 
 What value of $\alpha$ did we use?
