@@ -166,10 +166,10 @@ Suppose our data $x_1,...,x_n$ is a realization of a random sample, $X_1, ..., X
 
 # Using Chebyshev's Inequality
 
-- Consider an unbiased estimator $\widehat{\mu}$ that has $\text{Var}(\widehat{\mu})=\sigma^2$. 
-- Find a bound on the probability that $\widehat{\mu}$ is within $2$ standard deviations of the true mean $\mu$.
+-   Consider an unbiased estimator $\widehat{\mu}$ that has $\text{Var}(\widehat{\mu})=\sigma^2$.
+-   Find a bound on the probability that $\widehat{\mu}$ is within $2$ standard deviations of the true mean $\mu$.
 
----
+------------------------------------------------------------------------
 
 ::: callout-tip
 *Recall*: For a random variable $Y$ with $\mathbb{E}[Y]=\mu_Y$ and $\text{Var}(Y)=\sigma_Y^2$, Chebyshev's inequality states
@@ -178,9 +178,6 @@ $$
 \Pr\left( \lvert Y-\mu_Y \rvert < k\sigma_Y \right)\geq 1-\frac{1}{k^2}
 $$
 :::
-
-
-
 
 ## Interpretion
 
@@ -214,8 +211,6 @@ This is a very conservative interval.
 What is a conservative confidence interval for $\widehat{\mu}=\bar{X}_n$ being within $2\sigma$, where $\mathbb{E}[X_i]=\mu$ and $\text{Var}(X_i)=\sigma^2$?
 :::
 
-
-
 # Normal data, known variance
 
 -   Suppose $X_1, ..., X_n \overset{iid}{\sim} \text{N}(\mu,\sigma^2)$ with known $\sigma^2$.
@@ -223,7 +218,6 @@ What is a conservative confidence interval for $\widehat{\mu}=\bar{X}_n$ being w
 -   Consider estimating $\mu$ with $\bar{X}_n$.
 
 -   We want to derive the confidence interval at the $1-\alpha$ level.
-
 
 ## Derivation
 
@@ -235,7 +229,7 @@ What is the sampling distribution of $\bar{X}_n$? ... standardized?
 
 ------------------------------------------------------------------------
 
-Confidence intervals rely on quantiles in the tails of a sampling distribution. These are known as **critical values**.
+Confidence intervals rely on quantiles in the tails of a sampling distribution.
 
 ::: {#def-crit-values .fragment}
 A **critical value** $z_p$ of a standard normal distribution, $\text{N}(0,1)$, is defined as the value such that
@@ -252,8 +246,8 @@ So $z_p$ is the $(1-p)^{th}$ quantile of $\text{N}(0,1)$.
 For example:
 
 ```{r}
-qnorm(0.05) 
-qnorm(0.025)
+qnorm(0.025, lower.tail = FALSE)
+qnorm(0.975, lower.tail = FALSE)
 ```
 :::
 :::
@@ -261,7 +255,7 @@ qnorm(0.025)
 ------------------------------------------------------------------------
 
 $$
-P\left( -z_{\alpha/2} < \frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}< z_{\alpha/2} \right)=1-\alpha
+\Pr\left( -z_{\alpha/2} < \frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}< z_{\alpha/2} \right)=1-\alpha
 $$
 
 . . .
@@ -273,8 +267,6 @@ What is the $95\%$ confidence interval for $\mu$?
 ::: notes
 ![](fig/known_variance_2.png){width="80%"}
 :::
-
-
 
 ## Forumla
 
@@ -298,7 +290,6 @@ $$
 -   We are interested in estimating $\mu$ with $\bar{X}_n$.
 -   We can estimate $\sigma$ by $S_n=\sqrt{\frac{1}{n-1} \sum_{i=1}^n (X_i-\bar{X}_n)^2}$.
 -   We want a confidence interval at the $1-\alpha$ level.
-
 
 ## Sampling distributions
 
@@ -333,7 +324,6 @@ $$
 $$
 :::
 :::
-
 
 ## Student's t-distribution
 
@@ -403,14 +393,12 @@ To calculate quantiles (or critical values) from the $t$ distribution, use the f
 
 ```{r}
 # critical values for 90% confidence interval, DoF = 10-1
-qt(0.05, 9)
+qt(0.05, df = 9, lower.tail = FALSE)
 # critical values for 95% confidence interval, DoF = 10-1
-qt(0.025, 9)
+qt(0.025, df = 9, lower.tail = FALSE)
 ```
 :::
 :::
-
-
 
 ## Formula
 
@@ -434,14 +422,13 @@ $$
 What if the random sample is not drawn from a Normal distribution?
 :::
 
-
 ## Bootstrap t
 
 -   Suppose $X_1, ..., X_n \overset{iid}{\sim}F$ with $\mathbb{E}[X_i]=\mu$.
 -   Estimate $F$ by $F_n$, the empirical cumulative distribution function.
 -   The expectation corresponding to $F_n$ is $\bar{x}_n$. This is often written $\mu^*$.
 
----
+------------------------------------------------------------------------
 
 ::: callout
 ### Input
@@ -451,14 +438,13 @@ What if the random sample is not drawn from a Normal distribution?
 -   number of bootstrap samples, $B$
 :::
 
-
 ------------------------------------------------------------------------
 
 Repeat the following for each of $b=1,...,B$:
 
-1. Sample with replacement from $X_1,...,X_n$ to obtain a bootstrap sample $X_1^*,...,X_n^*$
-2. Compute the mean and standard deviation of the bootstrap sample, $\bar{X}_n^*$ and $s_n^*$ respectively.
-3. Compute $T_{n,b}^*=\frac{\bar{x}^*_n-\bar{x}}{s_n^*/\sqrt{n}}$
+1.  Sample with replacement from $X_1,...,X_n$ to obtain a bootstrap sample $X_1^*,...,X_n^*$
+2.  Compute the mean and standard deviation of the bootstrap sample, $\bar{X}_n^*$ and $s_n^*$ respectively.
+3.  Compute $T_{n,b}^*=\frac{\bar{x}^*_n-\bar{x}}{s_n^*/\sqrt{n}}$
 
 ------------------------------------------------------------------------
 
@@ -470,8 +456,6 @@ $T_{n,1}^*, ..., T_{n,B}^*$
 
 -   The sample quantiles of $T_{n,1}^*, ..., T_{n,B}^*$ can be used in place of the theoretical quantiles in a confidence interval.
 -   Let $c_l^*$ and $c_u^*$ be the $\alpha/2$ and $1-\alpha/2$ quantiles from the bootstrap distribution.
-
-
 
 ## Formula
 
@@ -489,13 +473,11 @@ $$
 $$
 :::
 
-
 # Unknown distribution, large sample size
 
 -   Consider estimating $\mu$ with $\bar{X}_n$.
 
 -   We want to derive the confidence interval at the $1-\alpha$ level.
-
 
 ## By CLT
 
@@ -519,7 +501,6 @@ How does this relate to the *studentized mean*?
 ![](fig/CIs_CLT.png){width="80%"}
 :::
 
-
 ## Formula
 
 Suppose the data $x_1,...,x_n$ are realizations of a random sample $X_1, ..., X_n$, drawn from a distribution with cdf $F$ and expectation $\mu$.
@@ -534,7 +515,7 @@ $$
 $$
 :::
 
-# CIs for the mean 
+# CIs for the mean
 
 ::: {layout="[[4,2],[4,2],[4,2],[4,2]]"}
 ::: fragment
@@ -728,63 +709,58 @@ Poll 955 people and 0.46 of respondents say they would vote for your candidate. 
 
 ## Pivots
 
-- Suppose we have data $x_1,...,x_n$ which are realizations of a random sample $X_1, ..., X_n$. 
-- We want to find a $100(1-\alpha)$% confidence interval for a parameter $\theta$.
+-   Suppose we have data $x_1,...,x_n$ which are realizations of a random sample $X_1, ..., X_n$.
+-   We want to find a $100(1-\alpha)$% confidence interval for a parameter $\theta$.
 
-
----
+------------------------------------------------------------------------
 
 ### Definition
 
 ::: fragment
-If we can find another random variable that 
+If we can find another random variable that
 :::
 
-  1. depends on $X_1, ..., X_n$ and $\theta$, and
-  2. whose probability distribution does not depend on $\theta$ or any other unknown parameters,
+1.  depends on $X_1, ..., X_n$ and $\theta$, and
+2.  whose probability distribution does not depend on $\theta$ or any other unknown parameters,
 
 ::: fragment
-then we can construct a confidence interval. 
+then we can construct a confidence interval.
 :::
 
 ::: fragment
 Random variables that satisfy these criteria are called **pivots**.
 :::
 
----
+------------------------------------------------------------------------
 
 ::: {#exm-pivot}
-Say we have a random sample $X_1, ..., X_n\overset{iid}{\sim}\text{N}(\mu,\sigma^2)$, but we do not know $(\mu,\sigma^2)$. We want a confidence interval for $\mu$. 
-
+Say we have a random sample $X_1, ..., X_n\overset{iid}{\sim}\text{N}(\mu,\sigma^2)$, but we do not know $(\mu,\sigma^2)$. We want a confidence interval for $\mu$.
 
 ::: fragment
-Then 
+Then
 
 $$
 h(X_1,...,X_n|\mu)=\frac{\overline{X}_n-\mu}{S_n/\sqrt{n}}
 $$
 
 is a pivot, because $h(X_1,...,X_n|\mu)\sim t_{n-1}$ does not depend on any unknown parameters.
-
 :::
 :::
 
----
+------------------------------------------------------------------------
 
 ::: {#exm-pivot-sd}
-Say we have a random sample $X_1, ..., X_n\overset{iid}{\sim}\text{N}(\mu,\sigma^2)$, but we do not know $(\mu,\sigma^2)$. We want a confidence interval for $\sigma$. 
-
+Say we have a random sample $X_1, ..., X_n\overset{iid}{\sim}\text{N}(\mu,\sigma^2)$, but we do not know $(\mu,\sigma^2)$. We want a confidence interval for $\sigma$.
 
 ::: {.fragment .fade-in-then-out}
-::: {.callout-note}
-*Recall*: 
-$$
+::: callout-note
+*Recall*: $$
 (n-1)S_n^2=\sum_{i=1}^n \left( X_i -\bar{X}_n \right)^2 \sim \sigma^2 \cal{\chi}^2_{n-1}
 $$
 :::
 :::
 :::
 
-::: {.notes}
+::: notes
 ![](fig/pivot-sd.png){width="80%"}
 :::
