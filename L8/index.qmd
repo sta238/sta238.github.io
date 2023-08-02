@@ -1,0 +1,537 @@
+---
+title: "Statistical Testing"
+author: "Sonia Markes"
+institute: "University of Toronto"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    scrollable: true
+    chalkboard: 
+      src: chalkboard.json
+      theme: whiteboard
+      boardmarker-width: 2
+    callout-appearance: simple
+execute:
+  echo: true
+---
+
+# Scientific method
+
+::: callout-tip
+An empirical and iterative process for developing shared knowledge.
+:::
+
+1.  Define a question
+2.  Research what's known
+3.  Form a hypothesis
+4.  Perform an experiment
+5.  Analyze the data
+6.  Interpret and discuss
+
+
+## *Example*
+
+<center>![](fig/title_body_temp.png){width="80%"}</center>
+
+::: aside
+::: callout
+#### References
+
+::: nonincremental
+-   P.A. Mackowiak, S.S. Wasserman and M.M. Levine (1992). A Critical Appraisal of $98.6^oF$, the Upper Limit of the Normal Body Temperature, and Other Legacies of Carl Reinhold August Wunderlich. JAMA 268(12): 1578-1580.
+-   M. Protsiv, C. Ley, J. Lankester, T. Hastie, and J. Parsonnet (2020). Decreasing human body temperature in the United States since the Industrial Revolution. eLIFE 9:e49555.
+-   A.L. Shoemaker (1996). What's Normal? -- Temperature, Gender, and Heart Rate. Journal of Statistics Education 4(2).
+-   K. Weintraub (2020). Are Human Body Temperatures Cooling Down? Scientific American, 17 January 2020. https://www.scientificamerican.com/article/are-human-body-temperatures-cooling-down/
+:::
+:::
+:::
+
+------------------------------------------------------------------------
+
+```{r setup, include=FALSE}
+library(tidyverse)
+options(digits = 5)
+```
+
+## Background {.smaller}
+
+-   The idea that the mean body temperature of a healthy adult human is $37^oC$ (or, equivalently, $98.6^oF$) traces back to a book published in 1868 by the German physician Carl Reinhold August Wunderlich. This book reported on his analysis of over one million temperature readings from 24,000 patients.
+-   Modern studies have reported lower mean body temperatures. One such study is Mackowiak et al. (1992) which took measurements of 148 healthy adults (122 males and 26 females). They found an average mean body temperature of $36.8^oC$.
+-   The above headline is from a new article about a research paper by Protsiv et al. (2020) which showed an estimated decrease in body temperature of $0.03^oC$ per birth decade (controlling for age, body weight, height, and time of day), based on data from 3 different large studies.
+-   The data from Mackowiak et al. (1992) was not made available, but in Shoemaker (1996), they replicated and published data that had similar statistical properties, derived from the histogram that Mackowiak et al. (1992) reported.
+
+## Data
+
+We will use Shoemaker's data of 130 simulated body temperature readings for 65 hypothetical males and 65 hypothetical females.
+
+<center>
+[🔗 TempData.csv](https://github.com/sta238/data/blob/e56abfadb5891322f9207cd001704c6d6c962e55/TempData.csv)
+</center>
+
+::: fragment
+```{r load-data}
+#| code-line-numbers: "1|3"
+#| output-location: fragment
+bodytemps <- read.csv("https://raw.githubusercontent.com/sta238/data/main/TempData.csv")
+
+bodytemps %>% slice(1:5) # view first rows
+```
+:::
+
+------------------------------------------------------------------------
+
+### Variables
+
+-   `temp`: temperature in degrees Fahrenheit
+-   `sex`: 1 = male, 2 = female
+-   `heartrate`: heart rate in beats per minute
+
+::: fragment
+We want the body temperatures in degrees Celsius.
+
+::: panel-tabset
+##### Math
+
+::: fragment
+$$
+( \;^{\circ}F − 32) \times 5/9 = \; ^{\circ}C 
+$$
+:::
+
+##### Code
+
+```{r temp-celsius}
+bodytemps$tempc <- (bodytemps$temp - 32) * 5/9
+```
+:::
+:::
+
+
+
+## EDA
+
+```{r}
+#| echo: false
+tibble(bodytemps) %>%
+  ggplot(aes(x=tempc, y=after_stat(density))) +
+  theme_bw() +
+  geom_histogram(bins = 14, fill = "grey", colour="black", alpha=0.5) +
+  geom_density(colour="darkblue") +
+  labs(title = "Histogram & kernel density estimate, body temperature data",
+       x = "Temperature in degrees Celcius ",
+       y = "Density")
+```
+
+## Analysis: Confidence Interval
+
+Find a $95\%$ confidence interval for the mean body temperature.
+
+-   Does the distribution of body temperatures look normal?
+-   If body temperatures $\sim N(\mu, \sigma^2)$, do we know $\sigma$?
+-   How big is the sample size?
+
+::: fragment
+*Recall*: The studentized mean for a random distribution
+
+$$
+\frac{\bar{X}_n-\mu}{S_n/\sqrt{n}} \sim t_{n-1}
+$$
+:::
+
+------------------------------------------------------------------------
+
+### Formula
+
+::: {.fragment fragment-index="1"}
+$$
+\Pr\left( -t_{n-1,\;\alpha/2} \leq\frac{\bar{X}_n-\mu}{S_n/\sqrt{n}} \leq t_{n-1,\;\alpha/2}\right) = 1-\alpha
+$$
+:::
+
+::: {.fragment fragment-index="3"}
+::: callout-important
+*Quick exercise*: Fill in the intermediate steps.
+:::
+:::
+
+::: {.fragment fragment-index="2"}
+which gives this formula for a confidence interval
+$$
+\left(\bar{x}_n - t_{n-1,\;\alpha/2} \frac{s_n}{\sqrt{n}} ,\; \bar{x}_n + t_{n-1,\;\alpha/2} \frac{s_n}{\sqrt{n}}\right)
+$$
+:::
+
+------------------------------------------------------------------------
+
+### Compute
+
+```{r}
+#| code-line-numbers: "1-6|7|9-12"
+#| output-location: fragment
+xbar <- mean(bodytemps$tempc)
+
+sn <- sd(bodytemps$tempc)
+
+n <- length(bodytemps$tempc) 
+
+crit_t <- qt(0.025, df=n-1, lower.tail = FALSE)
+
+c(
+  "lower" = xbar - crit_t * sn/sqrt(n),
+  "upper" = xbar + crit_t * sn/sqrt(n)
+)
+```
+
+::: {.fragment}
+::: callout-warning
+Does the data indicate that mean body temperature is not $37^{\circ} C$?
+:::
+:::
+
+# p-values
+A popular type of summary statistic used when addressing hypothesis-based research questions is called a **p-value**.
+
+::: fragment
+::: {.callout-tip}
+If the parameter is what we claim, does it seem possible that we got the data that we did?
+:::
+:::
+
+---
+
+
+::: {.callout-note}
+## Idea
+
+- Say we’re interested in a parameter $\theta$ of the distribution of $X_i$’s.
+- We think the parameter might have a particular value, call it $\theta_0$.
+- *Does the data support this hypothesis?*
+:::
+
+
+::: fragment
+##### *Example*: Body temperatures
+
+- Parameter of interest: $\mu$
+- Claim that $\mu = \mu_0$ where $\mu_0 = 37^{\circ} C$
+:::
+
+---
+
+::: {.callout-note}
+## Terminology
+
+- **null hypothesis**: $H_0:\theta=\theta_0$
+- **alternative hypothesis**: $H_a : \theta \neq \theta_0$
+- **test statistic**, $T(X)$, is a function of the random sample and depends on $\theta_0$
+:::
+
+::: {.fragment}
+##### *Example*: Body temperatures
+
+- $H_0 : \mu=37$
+- $H_a : \mu\neq37$
+- For a **t-test**: $T(X)=\frac{\bar{X}_n-\mu_0}{S_n/\sqrt{n}}$
+:::
+
+---
+
+## Definition
+Assuming that $\theta_0$ is the true value of $\theta$, the **p-value** is the probability of observing the test statistic or something more extreme.
+
+::: {.fragment}
+We will define a p-value as 
+$$
+p_o={\Pr}_{\theta_0}\left(\left|T(X) \right| \geq \left| t_{obs}\right| \right)
+$$ 
+where $t_{obs}=T(x)$
+:::
+
+::: {.notes}
+![](fig/t-test_plot.png){width="80%"}
+:::
+
+---
+
+##### *Example*: Body temperatures
+
+If the claim is true, then the test stat is an observation from a t-distribution with $n-1$ degrees of freedom. What is the probability of getting the observed test statistic, or a value that is more extreme?
+
+::: panel-tabset
+##### Math
+
+
+##### Code
+
+```{r}
+#| code-line-numbers: "1|2|3"
+#| output-location: fragment
+mu0 <- 37 # hypothesis
+tstat <-  (xbar-mu0)/(sn/sqrt(n)) # test statistic
+2 * pt(tstat, n-1) # p-value
+```
+
+
+:::
+
+---
+
+::: {.callout-note}
+## Interpretation
+
+- A large p-value means the data are consistent with the claim in the null hypothesis.
+- A small p-value means the data are inconsistent with the claim in the null hypothesis.
+:::
+
+::: {.fragment}
+##### *Example*: Body temperatures
+
+- $1.21\times 10^{-7}$ is a very small p-value.
+- We have strong evidence that the mean of the distribution that generated the body temperature data is *not* $37^{\circ}C$
+:::
+
+
+
+# Statistical hypothetsis testing
+
+
+## What are p-values?
+The **p-value** is the probability of obtaining a result from data that is equal to or more extreme than what was actually observed, when calculated assuming the null hypothesis is true.
+
+- The p-value is calculated from the data. So it’s another statistic.
+- Since the p-value value varies with the data, if we think of it in terms of the underlying random sample, we can talk about its distribution. So what is its probability distribution if the parameter is, indeed, what we claim?
+
+
+## Terminology
+
+When we want to make {yes, no} decisions about whether the data supports a certain true value of the parameter, we call the process a **statistical hypothesis test**.
+
+. . .
+
+Very often, p-values are used in statistical hypothesis testing.
+
+---
+
+Suppose $X_1, ..., X_n\overset{iid}{\sim} F_\theta$. We want to assess the support for the claim that $\theta = \theta_0$.
+
+- If we want to check a p-value against a threshold of $\alpha\in (0,1)$, then we say we are *testing the hypothesis that $\theta = \theta_0$ at significance level $\alpha$*. 
+- If $p_o<\alpha$, we *“reject” the hypothesis* at the $\alpha$ level. 
+- Otherwise, we say that the observed data does not provide *sufficient evidence* to reject the hypothesis at the $\alpha$ level.
+
+
+## Limitations
+
+A small p-value can occur because
+
+- $\theta \neq \theta_0$
+- $\theta = \theta_0$ but we have some *very* unusual data
+- at least one of the assumptions of the statistical test used was violated
+
+---
+
+::: {.callout-important}
+- A small p-value does not indicate an important departure from the null hypothesis. You may hear people say that “statistical significance does not imply practical importance”.
+- A very small p-value may still indicate more support for the null than for the alternative hypothesis.
+- A p-value only gives evidence *against* the null hypothesis. It does not give an indication of which element of the alternative might be best supported by the data.
+:::
+
+::: {.fragment}
+::: {.callout-tip}
+- Beware of “bright-line” thinking.
+- Use caution when imposing binary thinking on a continuous world.
+- For good science, p-values should be used in conjunction with other tools and with consideration for the context.
+:::
+:::
+
+
+## Test statistics
+
+If we assume the distribution of the data is Normal, then we know that these test statistics have the following distributions:
+
+::: fragment
+$$
+\frac{\bar{X}_n-\mu}{\sigma/\sqrt{n}}\sim \text{N}\left( 0,1 \right) \quad\text{if }\sigma\text{ is known}
+$$
+:::
+
+::: fragment
+$$
+\frac{\bar{X}_n-\mu}{S_n/\sqrt{n}}\sim t_{n-1} \quad\text{if }\sigma\text{ is unknown}
+$$
+:::
+
+::: fragment
+$$
+\frac{\bar{X}_n-\mu}{S_n/\sqrt{n}} \;\dot{\sim} \;\text{N}\left( 0,1 \right) \quad \text{for large }n
+$$
+:::
+
+
+::: {.notes}
+- In the **body temperature example**, we assumed the data was approximately normal and performed a test for the mean. 
+- Since we used an estimate for the standard deviation (known as the standard error) to test the mean, the test statistic was assumed to follow the t-distribution. 
+- Tests that follow this procedure are called **t-test**. 
+:::
+
+## Interpretation
+
+Rough guidelines for *strength of evidence*:
+
+- If $p_0 > 0.10$ ⇒ we have no evidence against $H_0$
+- If $0.05 < p_0 < 0.10$ ⇒ we have weak evidence against $H_0$
+- If $0.01 < p_0 < 0.05$ ⇒ we have moderate evidence against $H_0$
+- If $0.001 < p_0 < 0.01$ ⇒ we have strong evidence against $H_0$
+- If $p_0 < 0.001$ ⇒ we have very strong evidence against $H_0$
+
+
+---
+
+## {.smaller} 
+
+### *Example*
+
+Advertisements for a particular chocolate bar claims that they have 5 peanuts in every bar. You eat one of their chocolate bars and only find 2 peanuts. So you buy 49 more chocolates bars. You find average number of peanuts per bar is 4.37 and the standard deviation is 1.28. Does the data support the claim in the ad?
+
+
+::: panel-tabset
+
+##### Math
+
+##### Code
+
+```{r}
+#| output-location: fragment
+tobs <- (4.37 - 5)/(1.28/sqrt(50)) # test statistic
+2*pt(tobs, df=49) # p-value
+```
+
+```{r}
+#| output-location: fragment
+2*pnorm(tobs) # p-value
+```
+
+:::
+
+
+::: {.notes}
+![](fig/ttest_peanuts.png){width="80%"}
+:::
+
+# Goodness of Fit
+
+To describe how well a model fits a set of observations, we use **goodness of fit** tests.
+
+---
+
+Suppose we have data $x=(x_1,...,x_n)$, which are realizations of a sample $X=(X_1,...,X_n)$. We are interested in the claim that $\theta=\theta_0$ where $\theta$ is a parameter of the probability distribution of $X_i$.
+
+. . .
+
+Say we have found the maximum likelihood estimate of $\theta$, and denote it as $\widehat{\theta}_{MLE}$.
+
+
+## Likelihood ratio
+
+The **likelihood ratio** is defined as
+
+$$
+\Lambda(\theta_0)=\frac{L\left( \theta_0|X\right)}{L\left( \widehat{\theta}_{MLE}|X\right)}
+$$
+
+$$
+\;
+$$
+
+::: fragment
+:::{.callout-tip}
+Notice that $0 \leq \Lambda(\theta_0)\leq1$ 
+:::
+:::
+
+## Likelihood ratio statistic
+
+If we assume that the MLE satisfies $\left. \frac{\partial\ell}{\partial\theta}\right|_{\theta=\widehat{\theta}_{MLE}} = 0$, it can be shown that the sampling distribution of the MLE is asymptotically normal. It can be shown that for large $n$,
+
+$$
+-2\log \Lambda(\theta_0) \sim \chi_1^2
+$$
+
+. . .
+
+We say that the **likelihood ratio statistic** has a *chi-squared distribution with one degree of freedom*. The p-value for the likelihood ratio statistic is computed as
+
+$$
+p_0=\Pr\left( \chi_1^2 > -2\log \Lambda(\theta_0) \right)
+$$
+
+## Chi-squared distribution
+
+- One parameter, $k$, called the degrees of freedom
+- The sum of the square of $k$ independent standard normal random variables has a $\chi_k^2$distribution
+- For $k=1$, support is $x\in(0,\infty)$. For $k>1$, support is $x\in[0,\infty)$.
+- It is right-skewed. The amount of skew decreases with k.
+- It is a special case of the Gamma distribution.
+    $$
+    X\sim\chi_k^2 \iff X\sim\Gamma\left(\alpha=\frac{k}{2},\beta=2\right)
+    $$
+
+---
+
+### Plots
+
+```{r}
+#| echo: false
+tibble(x = c(0,8)) %>%
+  ggplot(aes(x=x)) +
+  theme_classic() +
+  stat_function(fun = dchisq, args = c(df = 1), color="grey") + 
+  stat_function(fun = dchisq, args = c(df = 2), color="lightblue") + 
+  stat_function(fun = dchisq, args = c(df = 3), color="blue") +
+  stat_function(fun = dchisq, args = c(df = 4), color="darkblue") +
+  coord_cartesian(ylim = c(0,1)) +
+  labs(caption = "Grey: Light blue: chi-sq(2). Blue: chi-sq(3). Dark blue: chi-sq(3). Dashed line: N(0,1).")
+```
+
+## {.smaller}
+
+### *Example*
+
+Suppose we flip a coin 50 times and get 20 heads. Is this evidence that the coin is unfair?
+
+::: panel-tabset
+##### Math
+
+
+##### Code
+```{r}
+n <- 50
+xsum <- 20
+
+# Claim:
+p0 <- 0.5
+
+# Estimate:
+p_mle <- xsum / n
+
+# Define the log likelihood function
+likelihoodfcn <- function(p){
+  p^(xsum) * (1-p)^(n-xsum)
+}
+
+# Compute the likelihood ratio
+LR <- likelihoodfcn(p0) / likelihoodfcn(p_mle)
+
+# Do a likelihood ratio test to check if the data supports the claim
+lr <- -2*log(LR)
+1 - pchisq(lr, df = 1)
+```
+
+:::
+
+::: {.notes}
+![](fig/LR_example.png){width="80%"}
+:::
