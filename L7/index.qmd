@@ -38,7 +38,7 @@ $\bf{100(1-\alpha)\%}$ **confidence interval for** $\bf{\theta}$
 :::
 
 ::: {.fragment .fade-in}
-if there exists $\ell_n = g(X_1,...,X_n)$ and $U_n = h(X_1,...,X_n)$ that satisfy
+if there exists $\L_n = g(X_1,...,X_n)$ and $U_n = h(X_1,...,X_n)$ that satisfy
 
 $$
 \Pr(L_n < \theta < U_n)=1-\alpha \;\text{ for every value of } \theta
@@ -53,7 +53,7 @@ $1-\alpha$ is the **confidence level**.
 :::
 :::
 
-------------------------------------------------------------------------
+
 
 ## Features
 
@@ -65,7 +65,7 @@ $1-\alpha$ is the **confidence level**.
 ------------------------------------------------------------------------
 
 ::: {#def-conservativeCI}
-## Conservative onfidence nterval
+## Conservative Confidence Interval
 
 ::: fragment
 If $$P(L_n < \theta < U_n)\geq 1-\alpha$$ for every value of $\theta$, we say the resulting confidence interval is **conservative**.
@@ -286,7 +286,7 @@ $$
 
 # Normal data, unknown variance, small sample size
 
--   Suppose $X_1, ..., X_n \overset{iid}{\sim} \text{N}(\mu,\sigma^2)$ with known $\sigma^2$.
+-   Suppose $X_1, ..., X_n \overset{iid}{\sim} \text{N}(\mu,\sigma^2)$ with unknown $\sigma^2$.
 -   We are interested in estimating $\mu$ with $\bar{X}_n$.
 -   We can estimate $\sigma$ by $S_n=\sqrt{\frac{1}{n-1} \sum_{i=1}^n (X_i-\bar{X}_n)^2}$.
 -   We want a confidence interval at the $1-\alpha$ level.

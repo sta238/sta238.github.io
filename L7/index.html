@@ -11,7 +11,7 @@
   <meta name="generator" content="quarto-1.3.353">
 
   <meta name="author" content="Sonia Markes">
-  <meta name="dcterms.date" content="2023-07-30">
+  <meta name="dcterms.date" content="2023-08-02">
   <title>Confidence Intervals</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -407,7 +407,7 @@ Sonia Markes
     </div>
 </div>
 
-  <p class="date">July 30, 2023</p>
+  <p class="date">August 2, 2023</p>
 </section>
 <section>
 <section id="definition" class="title-slide slide level1 center">
@@ -437,7 +437,7 @@ Sonia Markes
 </div>
 </div>
 <div class="fragment fade-in">
-<p>if there exists <span class="math inline">\(\ell_n = g(X_1,...,X_n)\)</span> and <span class="math inline">\(U_n = h(X_1,...,X_n)\)</span> that satisfy</p>
+<p>if there exists <span class="math inline">\(\L_n = g(X_1,...,X_n)\)</span> and <span class="math inline">\(U_n = h(X_1,...,X_n)\)</span> that satisfy</p>
 <p><span class="math display">\[
 \Pr(L_n &lt; \theta &lt; U_n)=1-\alpha \;\text{ for every value of } \theta
 \]</span></p>
@@ -462,7 +462,7 @@ Sonia Markes
 <section class="slide level2">
 
 <div id="def-conservativeCI" class="theorem definition">
-<p><span class="theorem-title"><strong>Definition 2 (Conservative onfidence nterval) </strong></span>&nbsp;</p>
+<p><span class="theorem-title"><strong>Definition 2 (Conservative Confidence Interval) </strong></span>&nbsp;</p>
 <div class="fragment">
 <p>If <span class="math display">\[P(L_n &lt; \theta &lt; U_n)\geq 1-\alpha\]</span> for every value of <span class="math inline">\(\theta\)</span>, we say the resulting confidence interval is <strong>conservative</strong>.</p>
 </div>
@@ -771,7 +771,7 @@ There is a <span class="math inline">\(95\%\)</span> chance that the true mean d
 <section id="normal-data-unknown-variance-small-sample-size" class="title-slide slide level1 center">
 <h1>Normal data, unknown variance, small sample size</h1>
 <ul>
-<li class="fragment">Suppose <span class="math inline">\(X_1, ..., X_n \overset{iid}{\sim} \text{N}(\mu,\sigma^2)\)</span> with known <span class="math inline">\(\sigma^2\)</span>.</li>
+<li class="fragment">Suppose <span class="math inline">\(X_1, ..., X_n \overset{iid}{\sim} \text{N}(\mu,\sigma^2)\)</span> with unknown <span class="math inline">\(\sigma^2\)</span>.</li>
 <li class="fragment">We are interested in estimating <span class="math inline">\(\mu\)</span> with <span class="math inline">\(\bar{X}_n\)</span>.</li>
 <li class="fragment">We can estimate <span class="math inline">\(\sigma\)</span> by <span class="math inline">\(S_n=\sqrt{\frac{1}{n-1} \sum_{i=1}^n (X_i-\bar{X}_n)^2}\)</span>.</li>
 <li class="fragment">We want a confidence interval at the <span class="math inline">\(1-\alpha\)</span> level.</li>
