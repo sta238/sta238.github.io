@@ -32,7 +32,6 @@ An empirical and iterative process for developing shared knowledge.
 5.  Analyze the data
 6.  Interpret and discuss
 
-
 ## *Example*
 
 <center>![](fig/title_body_temp.png){width="80%"}</center>
@@ -68,9 +67,7 @@ options(digits = 5)
 
 We will use Shoemaker's data of 130 simulated body temperature readings for 65 hypothetical males and 65 hypothetical females.
 
-<center>
-[🔗 TempData.csv](https://github.com/sta238/data/blob/e56abfadb5891322f9207cd001704c6d6c962e55/TempData.csv)
-</center>
+<center>[🔗 TempData.csv](https://github.com/sta238/data/blob/e56abfadb5891322f9207cd001704c6d6c962e55/TempData.csv)</center>
 
 ::: fragment
 ```{r load-data}
@@ -109,8 +106,6 @@ bodytemps$tempc <- (bodytemps$temp - 32) * 5/9
 ```
 :::
 :::
-
-
 
 ## EDA
 
@@ -159,8 +154,7 @@ $$
 :::
 
 ::: {.fragment fragment-index="2"}
-which gives this formula for a confidence interval
-$$
+which gives this formula for a confidence interval $$
 \left(\bar{x}_n - t_{n-1,\;\alpha/2} \frac{s_n}{\sqrt{n}} ,\; \bar{x}_n + t_{n-1,\;\alpha/2} \frac{s_n}{\sqrt{n}}\right)
 $$
 :::
@@ -186,76 +180,74 @@ c(
 )
 ```
 
-::: {.fragment}
+::: fragment
 ::: callout-warning
 Does the data indicate that mean body temperature is not $37^{\circ} C$?
 :::
 :::
 
 # p-values
+
 A popular type of summary statistic used when addressing hypothesis-based research questions is called a **p-value**.
 
 ::: fragment
-::: {.callout-tip}
+::: callout-tip
 If the parameter is what we claim, does it seem possible that we got the data that we did?
 :::
 :::
 
----
+------------------------------------------------------------------------
 
-
-::: {.callout-note}
+::: callout-note
 ## Idea
 
-- Say we’re interested in a parameter $\theta$ of the distribution of $X_i$’s.
-- We think the parameter might have a particular value, call it $\theta_0$.
-- *Does the data support this hypothesis?*
+-   Say we're interested in a parameter $\theta$ of the distribution of $X_i$'s.
+-   We think the parameter might have a particular value, call it $\theta_0$.
+-   *Does the data support this hypothesis?*
 :::
-
 
 ::: fragment
 ##### *Example*: Body temperatures
 
-- Parameter of interest: $\mu$
-- Claim that $\mu = \mu_0$ where $\mu_0 = 37^{\circ} C$
+-   Parameter of interest: $\mu$
+-   Claim that $\mu = \mu_0$ where $\mu_0 = 37^{\circ} C$
 :::
 
----
+------------------------------------------------------------------------
 
-::: {.callout-note}
+::: callout-note
 ## Terminology
 
-- **null hypothesis**: $H_0:\theta=\theta_0$
-- **alternative hypothesis**: $H_a : \theta \neq \theta_0$
-- **test statistic**, $T(X)$, is a function of the random sample and depends on $\theta_0$
+-   **null hypothesis**: $H_0:\theta=\theta_0$
+-   **alternative hypothesis**: $H_a : \theta \neq \theta_0$
+-   **test statistic**, $T(X)$, is a function of the random sample and depends on $\theta_0$
 :::
 
-::: {.fragment}
+::: fragment
 ##### *Example*: Body temperatures
 
-- $H_0 : \mu=37$
-- $H_a : \mu\neq37$
-- For a **t-test**: $T(X)=\frac{\bar{X}_n-\mu_0}{S_n/\sqrt{n}}$
+-   $H_0 : \mu=37$
+-   $H_a : \mu\neq37$
+-   For a **t-test**: $T(X)=\frac{\bar{X}_n-\mu_0}{S_n/\sqrt{n}}$
 :::
 
----
+------------------------------------------------------------------------
 
 ## Definition
+
 Assuming that $\theta_0$ is the true value of $\theta$, the **p-value** is the probability of observing the test statistic or something more extreme.
 
-::: {.fragment}
-We will define a p-value as 
-$$
+::: fragment
+We will define a p-value as $$
 p_o={\Pr}_{\theta_0}\left(\left|T(X) \right| \geq \left| t_{obs}\right| \right)
-$$ 
-where $t_{obs}=T(x)$
+$$ where $t_{obs}=T(x)$
 :::
 
-::: {.notes}
+::: notes
 ![](fig/t-test_plot.png){width="80%"}
 :::
 
----
+------------------------------------------------------------------------
 
 ##### *Example*: Body temperatures
 
@@ -263,7 +255,6 @@ If the claim is true, then the test stat is an observation from a t-distribution
 
 ::: panel-tabset
 ##### Math
-
 
 ##### Code
 
@@ -274,37 +265,32 @@ mu0 <- 37 # hypothesis
 tstat <-  (xbar-mu0)/(sn/sqrt(n)) # test statistic
 2 * pt(tstat, n-1) # p-value
 ```
-
-
 :::
 
----
+------------------------------------------------------------------------
 
-::: {.callout-note}
+::: callout-note
 ## Interpretation
 
-- A large p-value means the data are consistent with the claim in the null hypothesis.
-- A small p-value means the data are inconsistent with the claim in the null hypothesis.
+-   A large p-value means the data are consistent with the claim in the null hypothesis.
+-   A small p-value means the data are inconsistent with the claim in the null hypothesis.
 :::
 
-::: {.fragment}
+::: fragment
 ##### *Example*: Body temperatures
 
-- $1.21\times 10^{-7}$ is a very small p-value.
-- We have strong evidence that the mean of the distribution that generated the body temperature data is *not* $37^{\circ}C$
+-   $1.21\times 10^{-7}$ is a very small p-value.
+-   We have strong evidence that the mean of the distribution that generated the body temperature data is *not* $37^{\circ}C$
 :::
-
-
 
 # Statistical hypothetsis testing
 
-
 ## What are p-values?
+
 The **p-value** is the probability of obtaining a result from data that is equal to or more extreme than what was actually observed, when calculated assuming the null hypothesis is true.
 
-- The p-value is calculated from the data. So it’s another statistic.
-- Since the p-value value varies with the data, if we think of it in terms of the underlying random sample, we can talk about its distribution. So what is its probability distribution if the parameter is, indeed, what we claim?
-
+-   The p-value is calculated from the data. So it's another statistic.
+-   Since the p-value value varies with the data, if we think of it in terms of the underlying random sample, we can talk about its distribution. So what is its probability distribution if the parameter is, indeed, what we claim?
 
 ## Terminology
 
@@ -314,39 +300,37 @@ When we want to make {yes, no} decisions about whether the data supports a certa
 
 Very often, p-values are used in statistical hypothesis testing.
 
----
+------------------------------------------------------------------------
 
 Suppose $X_1, ..., X_n\overset{iid}{\sim} F_\theta$. We want to assess the support for the claim that $\theta = \theta_0$.
 
-- If we want to check a p-value against a threshold of $\alpha\in (0,1)$, then we say we are *testing the hypothesis that $\theta = \theta_0$ at significance level $\alpha$*. 
-- If $p_o<\alpha$, we *“reject” the hypothesis* at the $\alpha$ level. 
-- Otherwise, we say that the observed data does not provide *sufficient evidence* to reject the hypothesis at the $\alpha$ level.
-
+-   If we want to check a p-value against a threshold of $\alpha\in (0,1)$, then we say we are *testing the hypothesis that* $\theta = \theta_0$ at significance level $\alpha$.
+-   If $p_o<\alpha$, we *"reject" the hypothesis* at the $\alpha$ level.
+-   Otherwise, we say that the observed data does not provide *sufficient evidence* to reject the hypothesis at the $\alpha$ level.
 
 ## Limitations
 
 A small p-value can occur because
 
-- $\theta \neq \theta_0$
-- $\theta = \theta_0$ but we have some *very* unusual data
-- at least one of the assumptions of the statistical test used was violated
+-   $\theta \neq \theta_0$
+-   $\theta = \theta_0$ but we have some *very* unusual data
+-   at least one of the assumptions of the statistical test used was violated
 
----
+------------------------------------------------------------------------
 
-::: {.callout-important}
-- A small p-value does not indicate an important departure from the null hypothesis. You may hear people say that “statistical significance does not imply practical importance”.
-- A very small p-value may still indicate more support for the null than for the alternative hypothesis.
-- A p-value only gives evidence *against* the null hypothesis. It does not give an indication of which element of the alternative might be best supported by the data.
+::: callout-important
+-   A small p-value does not indicate an important departure from the null hypothesis. You may hear people say that "statistical significance does not imply practical importance".
+-   A very small p-value may still indicate more support for the null than for the alternative hypothesis.
+-   A p-value only gives evidence *against* the null hypothesis. It does not give an indication of which element of the alternative might be best supported by the data.
 :::
 
-::: {.fragment}
-::: {.callout-tip}
-- Beware of “bright-line” thinking.
-- Use caution when imposing binary thinking on a continuous world.
-- For good science, p-values should be used in conjunction with other tools and with consideration for the context.
+::: fragment
+::: callout-tip
+-   Beware of "bright-line" thinking.
+-   Use caution when imposing binary thinking on a continuous world.
+-   For good science, p-values should be used in conjunction with other tools and with consideration for the context.
 :::
 :::
-
 
 ## Test statistics
 
@@ -370,35 +354,31 @@ $$
 $$
 :::
 
-
-::: {.notes}
-- In the **body temperature example**, we assumed the data was approximately normal and performed a test for the mean. 
-- Since we used an estimate for the standard deviation (known as the standard error) to test the mean, the test statistic was assumed to follow the t-distribution. 
-- Tests that follow this procedure are called **t-test**. 
+::: notes
+-   In the **body temperature example**, we assumed the data was approximately normal and performed a test for the mean.
+-   Since we used an estimate for the standard deviation (known as the standard error) to test the mean, the test statistic was assumed to follow the t-distribution.
+-   Tests that follow this procedure are called **t-test**.
 :::
 
 ## Interpretation
 
 Rough guidelines for *strength of evidence*:
 
-- If $p_0 > 0.10$ ⇒ we have no evidence against $H_0$
-- If $0.05 < p_0 < 0.10$ ⇒ we have weak evidence against $H_0$
-- If $0.01 < p_0 < 0.05$ ⇒ we have moderate evidence against $H_0$
-- If $0.001 < p_0 < 0.01$ ⇒ we have strong evidence against $H_0$
-- If $p_0 < 0.001$ ⇒ we have very strong evidence against $H_0$
+-   If $p_0 > 0.10$ ⇒ we have no evidence against $H_0$
+-   If $0.05 < p_0 < 0.10$ ⇒ we have weak evidence against $H_0$
+-   If $0.01 < p_0 < 0.05$ ⇒ we have moderate evidence against $H_0$
+-   If $0.001 < p_0 < 0.01$ ⇒ we have strong evidence against $H_0$
+-   If $p_0 < 0.001$ ⇒ we have very strong evidence against $H_0$
 
+------------------------------------------------------------------------
 
----
-
-## {.smaller} 
+##  {.smaller}
 
 ### *Example*
 
 Advertisements for a particular chocolate bar claims that they have 5 peanuts in every bar. You eat one of their chocolate bars and only find 2 peanuts. So you buy 49 more chocolates bars. You find average number of peanuts per bar is 4.37 and the standard deviation is 1.28. Does the data support the claim in the ad?
 
-
 ::: panel-tabset
-
 ##### Math
 
 ##### Code
@@ -413,11 +393,9 @@ tobs <- (4.37 - 5)/(1.28/sqrt(50)) # test statistic
 #| output-location: fragment
 2*pnorm(tobs) # p-value
 ```
-
 :::
 
-
-::: {.notes}
+::: notes
 ![](fig/ttest_peanuts.png){width="80%"}
 :::
 
@@ -425,14 +403,13 @@ tobs <- (4.37 - 5)/(1.28/sqrt(50)) # test statistic
 
 To describe how well a model fits a set of observations, we use **goodness of fit** tests.
 
----
+------------------------------------------------------------------------
 
 Suppose we have data $x=(x_1,...,x_n)$, which are realizations of a sample $X=(X_1,...,X_n)$. We are interested in the claim that $\theta=\theta_0$ where $\theta$ is a parameter of the probability distribution of $X_i$.
 
 . . .
 
 Say we have found the maximum likelihood estimate of $\theta$, and denote it as $\widehat{\theta}_{MLE}$.
-
 
 ## Likelihood ratio
 
@@ -447,8 +424,8 @@ $$
 $$
 
 ::: fragment
-:::{.callout-tip}
-Notice that $0 \leq \Lambda(\theta_0)\leq1$ 
+::: callout-tip
+Notice that $0 \leq \Lambda(\theta_0)\leq1$
 :::
 :::
 
@@ -458,7 +435,7 @@ If we assume that the MLE satisfies $\left. \frac{\partial\ell}{\partial\theta}\
 
 $$
 -2\log \Lambda(\theta_0) \sim \chi_1^2
-$$
+$$ 
 
 . . .
 
@@ -470,16 +447,15 @@ $$
 
 ## Chi-squared distribution
 
-- One parameter, $k$, called the degrees of freedom
-- The sum of the square of $k$ independent standard normal random variables has a $\chi_k^2$distribution
-- For $k=1$, support is $x\in(0,\infty)$. For $k>1$, support is $x\in[0,\infty)$.
-- It is right-skewed. The amount of skew decreases with k.
-- It is a special case of the Gamma distribution.
-    $$
-    X\sim\chi_k^2 \iff X\sim\Gamma\left(\alpha=\frac{k}{2},\beta=2\right)
-    $$
+-   One parameter, $k$, called the degrees of freedom
+-   The sum of the square of $k$ independent standard normal random variables has a $\chi_k^2$distribution
+-   For $k=1$, support is $x\in(0,\infty)$. For $k>1$, support is $x\in[0,\infty)$.
+-   It is right-skewed. The amount of skew decreases with k.
+-   It is a special case of the Gamma distribution. $$
+      X\sim\chi_k^2 \iff X\sim\Gamma\left(\alpha=\frac{k}{2},\beta=2\right)
+      $$
 
----
+------------------------------------------------------------------------
 
 ### Plots
 
@@ -496,7 +472,7 @@ tibble(x = c(0,8)) %>%
   labs(caption = "Grey: Light blue: chi-sq(2). Blue: chi-sq(3). Dark blue: chi-sq(3). Dashed line: N(0,1).")
 ```
 
-## {.smaller}
+##  {.smaller}
 
 ### *Example*
 
@@ -505,9 +481,10 @@ Suppose we flip a coin 50 times and get 20 heads. Is this evidence that the coin
 ::: panel-tabset
 ##### Math
 
-
 ##### Code
+
 ```{r}
+#| output-location: fragment
 n <- 50
 xsum <- 20
 
@@ -529,9 +506,28 @@ LR <- likelihoodfcn(p0) / likelihoodfcn(p_mle)
 lr <- -2*log(LR)
 1 - pchisq(lr, df = 1)
 ```
-
 :::
 
-::: {.notes}
+::: notes
 ![](fig/LR_example.png){width="80%"}
+:::
+
+------------------------------------------------------------------------
+
+### Degrees of freedom
+
+If $\theta \in \mathbb{R}^d$ for $d>1$ and $\theta = \theta_0$, then for large $n$,
+
+$$
+-2\log \Lambda(\theta_0) \sim \chi_{d-1}^2
+$$
+
+::: fragment
+*Example*: The supplemental text shows how to test a claim that digits in a dataset have been generated uniformly.
+:::
+
+::: fragment
+::: callout-note
+The degrees of freedom in the chi-squared distribution depend on the difference between in the degrees of freedom in the MLE and in the degrees of freedom in the hypothesis.
+:::
 :::
