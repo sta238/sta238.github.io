@@ -469,7 +469,7 @@ tibble(x = c(0,8)) %>%
   stat_function(fun = dchisq, args = c(df = 3), color="blue") +
   stat_function(fun = dchisq, args = c(df = 4), color="darkblue") +
   coord_cartesian(ylim = c(0,1)) +
-  labs(caption = "Grey: Light blue: chi-sq(2). Blue: chi-sq(3). Dark blue: chi-sq(3). Dashed line: N(0,1).")
+  labs(caption = "Grey: chi-sq(1). Light blue: chi-sq(2). Blue: chi-sq(3). Dark blue: chi-sq(4).")
 ```
 
 ##  {.smaller}
