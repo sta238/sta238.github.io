@@ -1,0 +1,308 @@
+---
+title: "Bayesian Estimation"
+author: "Sonia Markes"
+institute: "University of Toronto"
+date: last-modified
+date-format: long
+format: 
+  revealjs:
+    theme: serif
+    incremental: true
+    slide-number: true
+    scrollable: true
+    chalkboard: 
+      src: chalkboard.json
+      theme: whiteboard
+      boardmarker-width: 2
+    callout-appearance: simple
+execute:
+  echo: true
+---
+
+# *Recall*: Introduction to Bayesian Inference
+
+## Components
+
+-   **Prior** : $\pi(\theta)$
+-   **Data** : $\mathbf{x}=(x_1,...,x_n)$
+-   **Likelihood** : $f_{\theta}(\mathbf{x})$ or $f(\mathbf{x}|\theta)$
+-   **Marginal** : $m(\mathbf{x})$
+-   **Posterior** : $\pi(\theta|\mathbf{x})$
+
+## Bayes Rule
+
+$$
+\pi(\theta | x)=\frac{f(x|\theta)\pi(\theta)}{m(x)}
+$$
+
+::: fragment
+The marginal distribution of the data $m(\mathbf{x})$ is a normalizing constant with respect to $\theta$.
+:::
+
+<center>
+
+::: {.fragment layout="[-1, 8, -1]"}
+**The posterior of** $\theta$ **is proportional to the likelihood times the prior.**
+
+$$
+\pi(\theta | x) \propto f(x|\theta)\pi(\theta)
+$$
+:::
+
+</center>
+
+# Point Estimation
+
+------------------------------------------------------------------------
+
+Given data $x=(x_1,...,x_n)$, realizations of a random sample $X=(X_1,...,X_n)$, where $X_i\sim F_{\theta}, \; \theta\in\Theta$, how do we arrive at an estimate $\widehat{\theta}$?
+
+::: fragment
+**Frequentist**: Find value of $\theta$ that maximizes the log-likelihood
+
+$$
+\widehat{\theta}_{MLE}=\arg \max \ell(\theta)
+$$
+:::
+
+::: fragment
+**Bayesian**: Find the posterior distribution $\pi(\theta|X_1,...,X_n)$ and then the estimator can be defined based on an appropriate summary statistic.
+:::
+
+## Summaries
+
+Some common choices for summaries:
+
+1.  posterior median: $\widehat{\theta}=\text{Median}(\theta|X_1,...,X_n)$
+2.  posterior mode: $\widehat{\theta}=\arg \max_{\theta} \pi(\theta|X_1,...,X_n)$
+3.  posterior mean: $\widehat{\theta}=\mathbb{E}(\theta|X_1,...,X_n)$
+
+
+##  {.smaller}
+
+::: {#exm-bernoulli-beta}
+## Bernoulli model with Beta prior 
+
+Suppose we have a random sample $X_1,...,X_n \overset{iid}{\sim} \text{Bernoulli}(\theta)$ and choose prior distribution $\theta\sim\text{Beta}(a,b)$. 
+:::
+
+::: {.r-stack}
+
+::: {.fragment .fade-in-then-out}
+Find the posterior distribution of $\theta|X_1,...,X_n$.
+:::
+
+::: {.fragment .fade-in-then-out}
+Find the posterior mean.
+:::
+
+::: {.fragment .fade-in-then-out}
+Find the posterior median.
+:::
+
+::: {.fragment}
+Find the posterior mode.
+:::
+
+:::
+
+::: {.notes}
+![](fig/ex1_1.png){width="80%"}
+![](fig/ex1_2.png){width="80%"}
+:::
+
+
+## {.smaller}
+
+::: {#exm-location-normal}
+### Location Normal model with Normal prior 
+
+Suppose we have a random sample $X_1,...,X_n \overset{iid}{\sim} \text{N}(\mu, \sigma_0^2)$ with $\sigma^2_0$ known and choose prior distribution $\mu \sim \text{N}(\mu_0,\tau_0^2)$.
+:::
+
+::: {.r-stack}
+
+::: {.fragment .fade-in-then-out}
+Find the posterior distribution of $\mu|X_1,...,X_n$.
+:::
+
+::: {.fragment .fade-in-then-out}
+Find an estimate for $\mu$.
+:::
+
+::: {.fragment}
+Compare with the MLE.
+:::
+
+:::
+
+::: {.notes}
+![](fig/ex2.png){width="80%"}
+:::
+
+
+# Credible Intervals
+
+## Definition
+
+A $100(1-\alpha)\%$ **credible interval** for $\theta$ given data a random sample $X=(X_1,...,X_n)$ is *any* pair $(L_n, U_n)$ such that
+
+$$
+\Pr\left( \left. L_n<\theta<U_n \right| X_1,...,X_n \right) = 1-\alpha
+$$
+
+---
+
+If $q_\alpha$ represents the $\alpha$-quantile of the posterior, that is, 
+$$
+\int_{-\infty}^{q_\alpha} \pi (\theta|X_1,...,X_n)d\theta=\alpha
+$$
+then the following are $100(1-\alpha)\%$ credible intervals:
+
+- $(-\infty,q_{1-\alpha})$
+- $(q_{\alpha},\infty)$
+- $(q_{\alpha/2},q_{1-\alpha/2})$
+
+
+::: {.fragment}
+::: {.callout-note}
+When $\Theta \subset \mathbb{R}$ (as opposed to $\Theta = \mathbb{R}$), the “$\pm \infty$” are replaced by the endpoints of $\Theta$. 
+:::
+:::
+
+---
+
+<center>
+
+How do we pick a way of constructing a credible interval? 
+
+::: {layout="[[-1],[1],[-1],[1]]"}
+
+::: fragment
+Choose the shortest interval. 
+:::
+
+::: fragment
+$$
+(q_{\alpha/2},q_{1-\alpha/2})
+$$
+is the shortest interval if the distribution is unimodal. 
+:::
+
+:::
+
+</center>
+
+## Interpretation
+
+### Confidence intervals
+
+::: fragment
+If samples of size $n$ are taken, such that they are drawn independently and separately, $100(1-\alpha)\%$ of the resulting intervals would contain the true value of the parameter in the long run.
+:::
+
+### Credible intervals
+
+::: fragment
+The probability that the parameter is in the interval is $1-\alpha$.
+:::
+
+---
+
+## {.smaller}
+
+::: {#exm-location-normal-ci}
+### Location Normal model with Normal prior 
+
+Suppose we have a random sample $X_1,...,X_n \overset{iid}{\sim} \text{N}(\mu, \sigma_0^2)$ with $\sigma^2_0$ known and choose prior distribution $\mu \sim \text{N}(\mu_0,\tau_0^2)$.
+:::
+
+<center>
+Compute a $95\%$ credible interval for $\mu$.
+</center>
+
+::: fragment
+$$
+\mu |\mathbf{x} \sim N \left( \left( \frac{1}{\tau_0^2}+\frac{n}{\sigma_0^2}\right) ^{-1}
+\left( \frac{\mu_0}{\tau_0^2}+\frac{n}{\sigma_0^2} \bar{x} \right),
+\left( \frac{1}{\tau_0^2}+\frac{n}{\sigma_0^2}\right) ^{-1}
+\right)
+$$
+:::
+
+::: {.notes}
+![](fig/ex3.png){width="80%"}
+:::
+
+
+---
+
+## {.smaller}
+
+::: {#exm-bernoulli-beta-ci}
+### Bernoulli model with Beta prior
+
+Let $X_1,...,X_n \overset{iid}{\sim} \text{Bernoulli}(\theta)$. Choose prior distribution $\theta\sim\text{Beta}(12,12)$. Suppose we observe $7$ heads in $10$ flips of this coin. 
+:::
+
+<center>
+Compute a $95\%$ credible interval for $\theta$.
+</center>
+
+::: fragment
+$$
+\theta|\mathbf{x} \sim \text{Beta}(a+n\bar{x}, b+n(1-\bar{x}))
+$$
+:::
+
+::: fragment
+```{r}
+#| code-line-numbers: "1-4|6"
+#| output-location: fragment
+n <- 10
+xbar <- 7/n
+a <- 12
+b = a
+
+qbeta(c(0.025,0.975), a + n*xbar, b + n*(1-xbar))
+```
+
+:::
+
+---
+
+## {.smaller}
+
+::: {#exm-bernoulli-beta-ci}
+### Exponential model with Gamma prior
+
+Let $X_1,...,X_n \overset{iid}{\sim} \text{Exp}(\lambda)$ with density $f_\lambda (x_i)=\lambda e^{-x_i\lambda}$. Use prior distribution $\lambda \sim\text{Gamma}(\alpha,\beta)$ where $(\alpha,\beta)=(2, 3)$. Suppose we observe 7 in a sample of size $n=10$.  
+
+<center>
+Compute the posterior median and $95\%$ credible interval for $\lambda$.
+</center>
+
+:::
+
+::: {.panel-tabset}
+##### Math
+
+
+##### Code
+
+
+```{r}
+n <- 10
+xbar <- 7/n
+alpha <- 2
+beta <- 3
+
+qgamma(c(0.025,0.5, 0.975), alpha + n, beta + n*xbar)
+```
+
+:::
+
+::: {.notes}
+![](fig/ex5.png){width="80%"}
+:::
+

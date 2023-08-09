@@ -38,7 +38,7 @@ $\bf{100(1-\alpha)\%}$ **confidence interval for** $\bf{\theta}$
 :::
 
 ::: {.fragment .fade-in}
-if there exists $\L_n = g(X_1,...,X_n)$ and $U_n = h(X_1,...,X_n)$ that satisfy
+if there exists $L_n = g(X_1,...,X_n)$ and $U_n = h(X_1,...,X_n)$ that satisfy
 
 $$
 \Pr(L_n < \theta < U_n)=1-\alpha \;\text{ for every value of } \theta
